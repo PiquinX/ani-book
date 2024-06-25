@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+  
+.text-area{
+    resize: none;
+    width: 100%;
+    min-height: 50px;
+    field-sizing: content;
+}
+
+.bar::-webkit-scrollbar
+{
+    width: 14px;
+	background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.bar::-webkit-scrollbar-thumb
+{
+    border: 2px solid #F5F5F5;
+	background-color: #cacaca;
+    border-radius: 10px;
+}
+
+.green-100 {
+    text-shadow: 0px 0px 2px #40ff00, 0px 0px 5px #40ff00;
+}
+
+.green-95 {
+    text-shadow: 0px 0px 2px #40ff00;
+}
+
+.main-scroll:has([data-pop-up]){
+    overflow-y: hidden;
+}
