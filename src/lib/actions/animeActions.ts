@@ -6,10 +6,9 @@ import { redirect } from 'next/navigation'
 import { CreateAnimeFormSchema } from '../schemas'
 import { animeIsFinishedOptions, APIstring } from '../consts'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 export const getAnimes = async (): Promise< Omit<AnimeType, 'rate'>[] | false> => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   try {
@@ -33,7 +32,7 @@ export const getAnimes = async (): Promise< Omit<AnimeType, 'rate'>[] | false> =
 }
 
 export const getAnimeByID = async ({ id }: { id: string }): Promise<AnimeType | false> => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   try {
@@ -63,7 +62,7 @@ export const getAnimeByID = async ({ id }: { id: string }): Promise<AnimeType | 
 }
 
 export const createAnime = async (prevState: animeState, formData : FormData) => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   const rates = formData.getAll('anime-rate')
@@ -124,7 +123,7 @@ export const createAnime = async (prevState: animeState, formData : FormData) =>
 }
 
 export const updateAnime = async (id: string, prevState: animeState, formData : FormData) => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   const rates = formData.getAll('anime-rate')

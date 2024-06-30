@@ -5,11 +5,10 @@ import { MovieResponseType, MovieType, MoviesListType, State } from '../definiti
 import { CreateMovieFormSchema } from '../schemas'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { APIstring } from '../consts'
 
 export const getMovies = async (): Promise<MoviesListType | false> => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   try {
@@ -32,7 +31,7 @@ export const getMovies = async (): Promise<MoviesListType | false> => {
 }
 
 export const getMovieByID = async ({ id }: { id: string }): Promise<MovieType | false> => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   try {
@@ -56,7 +55,7 @@ export const getMovieByID = async ({ id }: { id: string }): Promise<MovieType | 
 }
 
 export const createMovie = async (prevState: State, formData : FormData) => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   const validatedFields = CreateMovieFormSchema.safeParse({
@@ -110,7 +109,7 @@ export const createMovie = async (prevState: State, formData : FormData) => {
 }
 
 export const updateMovie = async (id: string, prevState: State, formData : FormData) => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   const validatedFields = CreateMovieFormSchema.safeParse({

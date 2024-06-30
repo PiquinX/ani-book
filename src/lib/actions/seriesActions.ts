@@ -5,11 +5,10 @@ import { SerieResponseType, SerieType, SeriesListType, State } from '../definiti
 import { redirect } from 'next/navigation'
 import { CreateSerieFormSchema } from '../schemas'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { APIstring } from '../consts'
 
 export const getSeries = async (): Promise<SeriesListType | false> => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   try {
@@ -31,7 +30,7 @@ export const getSeries = async (): Promise<SeriesListType | false> => {
 }
 
 export const getSerieByID = async ({ id }: { id: string }): Promise<SerieType | false> => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   try {
@@ -55,7 +54,7 @@ export const getSerieByID = async ({ id }: { id: string }): Promise<SerieType | 
 }
 
 export const createSerie = async (prevState: State, formData : FormData) => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   const validatedFields = CreateSerieFormSchema.safeParse({
@@ -109,7 +108,7 @@ export const createSerie = async (prevState: State, formData : FormData) => {
 }
 
 export const updateSerie = async (id: string, prevState: State, formData : FormData) => {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   const email = session?.user?.email
 
   const validatedFields = CreateSerieFormSchema.safeParse({
