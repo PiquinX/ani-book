@@ -6,13 +6,14 @@ import { CreateBookFormSchema } from '../schemas'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { APIstring } from '../consts'
 
 export const getBooks = async (): Promise<BooksListType | false> => {
   const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`http://localhost:777/books/${email}`)
+    const response = await fetch(`${APIstring}/books/${email}`)
 
     const books = await response.json()
 
@@ -34,7 +35,7 @@ export const getBookByID = async ({ id }: { id: string }): Promise<BookType | fa
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`http://localhost:777/books/${id}/${email}`)
+    const response = await fetch(`${APIstring}/books/${id}/${email}`)
 
     const book = await response.json()
 
@@ -74,7 +75,7 @@ export const createBook = async (prevState: State, formData : FormData) => {
   console.log(validatedFields.data)
 
   try {
-    const response = await fetch(`http://localhost:777/books/${email}`, {
+    const response = await fetch(`${APIstring}/books/${email}`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -128,7 +129,7 @@ export const updateBook = async (id: string, prevState: State, formData : FormDa
   console.log(validatedFields.data)
 
   try {
-    const response = await fetch(`http://localhost:777/books/${id}`, {
+    const response = await fetch(`${APIstring}/books/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       },

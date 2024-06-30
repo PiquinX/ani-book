@@ -6,13 +6,14 @@ import { redirect } from 'next/navigation'
 import { CreateSerieFormSchema } from '../schemas'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { APIstring } from '../consts'
 
 export const getSeries = async (): Promise<SeriesListType | false> => {
   const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`http://localhost:777/series/${email}`)
+    const response = await fetch(`${APIstring}/series/${email}`)
 
     const series = await response.json()
 
@@ -34,7 +35,7 @@ export const getSerieByID = async ({ id }: { id: string }): Promise<SerieType | 
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`http://localhost:777/series/${id}/${email}`)
+    const response = await fetch(`${APIstring}/series/${id}/${email}`)
 
     const serie = await response.json()
 
@@ -74,7 +75,7 @@ export const createSerie = async (prevState: State, formData : FormData) => {
   console.log(validatedFields.data)
 
   try {
-    const response = await fetch(`http://localhost:777/series/${email}`, {
+    const response = await fetch(`${APIstring}/series/${email}`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -126,7 +127,7 @@ export const updateSerie = async (id: string, prevState: State, formData : FormD
   }
 
   try {
-    const response = await fetch(`http://localhost:777/series/${id}`, {
+    const response = await fetch(`${APIstring}/series/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       },

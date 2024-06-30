@@ -6,13 +6,14 @@ import { CreateMovieFormSchema } from '../schemas'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { APIstring } from '../consts'
 
 export const getMovies = async (): Promise<MoviesListType | false> => {
   const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`http://localhost:777/movies/${email}`)
+    const response = await fetch(`${APIstring}/movies/${email}`)
 
     const movies = await response.json()
 
@@ -35,7 +36,7 @@ export const getMovieByID = async ({ id }: { id: string }): Promise<MovieType | 
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`http://localhost:777/movies/${id}/${email}`)
+    const response = await fetch(`${APIstring}/movies/${id}/${email}`)
 
     const movie = await response.json()
 
@@ -75,7 +76,7 @@ export const createMovie = async (prevState: State, formData : FormData) => {
   console.log(validatedFields.data)
 
   try {
-    const response = await fetch(`http://localhost:777/movies/${email}`, {
+    const response = await fetch(`${APIstring}/movies/${email}`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -119,6 +120,8 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
     description: formData.get('movie-description')
   })
 
+  console.log(validatedFields.data, 'validated fields')
+
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -127,7 +130,7 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
   }
 
   try {
-    const response = await fetch(`http://localhost:777/movies/${id}`, {
+    const response = await fetch(`https://my-entertainment-list-api.vercel.app/movies/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -136,7 +139,7 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
     })
     const updatedMovie = await response.json()
 
-    console.log(updatedMovie)
+    console.log(updatedMovie, 'updated movie')
 
     if (updatedMovie.errorMessage) {
       return {
@@ -147,7 +150,7 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
       }
     }
   } catch (err) {
-    console.log(err)
+    console.log({ err })
     return {
       errors: {
         external: ['Unexpected Error, try again']

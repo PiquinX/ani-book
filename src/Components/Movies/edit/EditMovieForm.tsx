@@ -64,7 +64,7 @@ export default function EditMovieForm ({ id, title, poster, rate, description }:
 
           <div className='bg-white w-full px-10'>
             <button className='hover:bg-blue-600 hover:text-white duration-200 w-full py-2 border-2 font-medium rounded text-blue-600 border-blue-600'>
-              UPDATE SERIE
+              UPDATE MOVIE
             </button>
           </div>
 

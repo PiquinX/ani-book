@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { AnimeRate, AnimeResponseType, AnimeType, animeState } from '../definitions'
 import { redirect } from 'next/navigation'
 import { CreateAnimeFormSchema } from '../schemas'
-import { animeIsFinishedOptions } from '../consts'
+import { animeIsFinishedOptions, APIstring } from '../consts'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
@@ -13,7 +13,7 @@ export const getAnimes = async (): Promise< Omit<AnimeType, 'rate'>[] | false> =
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`http://localhost:777/animes/${email}`)
+    const response = await fetch(`https://my-entertainment-list-api.vercel.app/animes/${email}`)
 
     const animes = await response.json()
 
@@ -37,7 +37,7 @@ export const getAnimeByID = async ({ id }: { id: string }): Promise<AnimeType | 
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`http://localhost:777/animes/${id}/${email}`)
+    const response = await fetch(`${APIstring}/animes/${id}/${email}`)
 
     const anime = await response.json()
 
@@ -90,7 +90,7 @@ export const createAnime = async (prevState: animeState, formData : FormData) =>
   console.log(validatedFields.data)
 
   try {
-    const response = await fetch(`http://localhost:777/animes/${email}`, {
+    const response = await fetch(`${APIstring}/animes/${email}`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -149,7 +149,7 @@ export const updateAnime = async (id: string, prevState: animeState, formData : 
   }
 
   try {
-    const response = await fetch(`http://localhost:777/animes/${id}`, {
+    const response = await fetch(`${APIstring}/animes/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -184,7 +184,7 @@ export const updateAnime = async (id: string, prevState: animeState, formData : 
 
 // export const addAnimeRate = async ({ id } : { id: string}): Promise<void> => {
 //   try {
-//     await fetch(`http://localhost:777/animes/add-rate/${id}`, {
+//     await fetch(`${APIstring}/animes/add-rate/${id}`, {
 //       headers: {
 //         'Content-Type': 'application/json'
 //       },
@@ -199,7 +199,7 @@ export const updateAnime = async (id: string, prevState: animeState, formData : 
 
 // export const removeAnimeRate = async ({ id, rate }: { id: string, rate: AnimeRate}) => {
 //   try {
-//     await fetch(`http://localhost:777/animes/remove-rate/${id}`, {
+//     await fetch(`${APIstring}/animes/remove-rate/${id}`, {
 //       headers: {
 //         'Content-Type': 'application/json'
 //       },
