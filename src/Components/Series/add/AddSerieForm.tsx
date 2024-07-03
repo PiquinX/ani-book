@@ -5,7 +5,17 @@ import { createSerie } from '@/lib/actions/seriesActions'
 import TextArea from '@/Components/forms/TextArea'
 
 export default function AddMovieForm () {
-  const initialState = { message: null, errors: {} }
+  const initialState = {
+    message: '',
+    errors: {
+      title: [],
+      poster: [],
+      rate: [],
+      description: [],
+      isFinished: [],
+      external: [],
+    },
+  }
   const [state, dispatch] = useFormState(createSerie, initialState)
 
   return (

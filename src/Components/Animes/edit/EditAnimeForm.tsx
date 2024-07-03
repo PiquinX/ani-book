@@ -14,7 +14,17 @@ import { useSession } from 'next-auth/react'
 
 export default function EditAnimeForm ({ id, title, poster, rate, description, isFinished }: AnimeUpdateType) {
   const updateAnimeWithID = updateAnime.bind(null, id)
-  const initialState = { message: null, errors: {} }
+  const initialState = {
+    message: '',
+    errors: {
+      title: [],
+      poster: [],
+      rate: [],
+      description: [],
+      isFinished: [],
+      external: [],
+    },
+  }
   const [state, dispatch] = useFormState(updateAnimeWithID, initialState)
 
   const [currentRate, setCurrentRate] = useState<AnimeRate[]>(rate)

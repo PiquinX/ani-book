@@ -9,7 +9,17 @@ import TextArea from '@/Components/forms/TextArea'
 
 export default function EditMovieForm ({ id, title, poster, rate, description }: MovieUpdateType) {
   const updateSerieWithID = updateMovie.bind(null, id)
-  const initialState = { message: null, errors: {} }
+  const initialState = {
+    message: '',
+    errors: {
+      title: [],
+      poster: [],
+      rate: [],
+      description: [],
+      isFinished: [],
+      external: [],
+    },
+  }
   const [state, dispatch] = useFormState(updateSerieWithID, initialState)
 
   return (

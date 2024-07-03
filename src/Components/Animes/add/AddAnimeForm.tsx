@@ -10,7 +10,17 @@ import { AnimeRate } from '@/lib/definitions'
 import EditRateValueInput from '../edit/EditRateValueInput'
 
 export default function AddAnimeForm () {
-  const initialState = { message: null, errors: {} }
+  const initialState = {
+    message: '',
+    errors: {
+      title: [],
+      poster: [],
+      rate: [],
+      description: [],
+      isFinished: [],
+      external: [],
+    },
+  }
   const [state, dispatch] = useFormState(createAnime, initialState)
 
   const [currentRate, setCurrentRate] = useState<AnimeRate[]>([{

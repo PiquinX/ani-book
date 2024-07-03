@@ -9,7 +9,17 @@ import TextArea from '@/Components/forms/TextArea'
 
 export default function EditBookForm ({ id, title, poster, rate, description }: BookUpdateType) {
   const updateBookWithID = updateBook.bind(null, id)
-  const initialState = { message: null, errors: {} }
+  const initialState = {
+    message: '',
+    errors: {
+      title: [],
+      poster: [],
+      rate: [],
+      description: [],
+      isFinished: [],
+      external: [],
+    },
+  }
   const [state, dispatch] = useFormState(updateBookWithID, initialState)
 
   return (

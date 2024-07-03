@@ -5,7 +5,17 @@ import { useFormState } from 'react-dom'
 import TextArea from '@/Components/forms/TextArea'
 
 export default function AddMovieForm () {
-  const initialState = { message: null, errors: {} }
+  const initialState = {
+    message: '',
+    errors: {
+      title: [],
+      poster: [],
+      rate: [],
+      description: [],
+      isFinished: [],
+      external: [],
+    },
+  }
   const [state, dispatch] = useFormState(createMovie, initialState)
 
   return (

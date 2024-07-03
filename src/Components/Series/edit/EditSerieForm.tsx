@@ -9,7 +9,17 @@ import TextArea from '@/Components/forms/TextArea'
 
 export default function EditSerieForm ({ id, title, poster, rate, description }: SerieUpdateType) {
   const updateSerieWithID = updateSerie.bind(null, id)
-  const initialState = { message: null, errors: {} }
+  const initialState = {
+    message: '',
+    errors: {
+      title: [],
+      poster: [],
+      rate: [],
+      description: [],
+      isFinished: [],
+      external: [],
+    },
+  }
   const [state, dispatch] = useFormState(updateSerieWithID, initialState)
 
   return (

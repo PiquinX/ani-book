@@ -5,7 +5,17 @@ import FormErrorMessage from '@/Components/forms/FormErrorMessage'
 import TextArea from '@/Components/forms/TextArea'
 
 export default function AddBookForm () {
-  const initialState = { message: null, errors: {} }
+  const initialState = {
+    message: '',
+    errors: {
+      title: [],
+      poster: [],
+      rate: [],
+      description: [],
+      isFinished: [],
+      external: [],
+    },
+  }
   const [state, dispatch] = useFormState(createBook, initialState)
 
   return (
