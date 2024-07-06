@@ -1,13 +1,14 @@
 import { useEffect, useId } from 'react'
-import { ClickEvent } from '@/lib/definitions'
 import { handleCloseModal } from '@/lib/serverUtils'
 
 export function usePopUp ({ newPath }: { newPath: string }) {
   const popUpData = useId()
 
-  const handleClick = (event: ClickEvent) => {
+  const handleClick = (event: MouseEvent) => {
+    const target = event.target as HTMLElement
+    
     handleCloseModal({
-      isRedirectable: event.target.getAttribute('data-pop-up') === popUpData,
+      isRedirectable: target.getAttribute('data-pop-up') === popUpData,
       newPath
     })
   }

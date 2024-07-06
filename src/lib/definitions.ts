@@ -101,7 +101,3 @@ export type AnimeState = {
     }
     message?: string | null
 }
-
-export interface ClickEvent extends MouseEvent {
-    target: HTMLElement;
-}

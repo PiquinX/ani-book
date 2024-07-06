@@ -1,6 +1,5 @@
 import { ReactNode, useState } from 'react'
 import { useSelect } from '@/hooks/useSelect'
-import { ClickEvent } from '@/lib/definitions'
 
 interface Props {
     options: string[]
