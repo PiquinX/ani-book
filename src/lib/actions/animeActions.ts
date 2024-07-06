@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { AnimeRate, AnimeResponseType, AnimeType, animeState } from '../definitions'
+import { AnimeRate, AnimeResponseType, AnimeType, AnimeState } from '../definitions'
 import { redirect } from 'next/navigation'
 import { CreateAnimeFormSchema } from '../schemas'
 import { animeIsFinishedOptions, APIstring } from '../consts'
@@ -61,7 +61,7 @@ export const getAnimeByID = async ({ id }: { id: string }): Promise<AnimeType | 
   }
 }
 
-export const createAnime = async (prevState: animeState, formData : FormData) => {
+export async function createAnime(prevState: AnimeState, formData: FormData) {
   const session = await getServerSession()
   const email = session?.user?.email
 
@@ -70,7 +70,7 @@ export const createAnime = async (prevState: animeState, formData : FormData) =>
     title: formData.get('anime-title'),
     poster: formData.get('anime-poster'),
     rate: rates.map((value, index) => ({
-      rate: parseInt(value),
+      rate: parseInt(value.toString()),
       value: formData.getAll('anime-rate-value')[index]
     })),
     description: formData.get('anime-description'),
@@ -81,7 +81,10 @@ export const createAnime = async (prevState: animeState, formData : FormData) =>
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: {
+        external: [],
+        ...validatedFields.error.flatten().fieldErrors,
+      }, 
       message: 'Missing Fields. Failed to Create Anime.'
     }
   }
@@ -103,6 +106,11 @@ export const createAnime = async (prevState: animeState, formData : FormData) =>
     if (newAnime.errorMessage) {
       return {
         errors: {
+          title: [],
+          poster: [],
+          rate: [],
+          description: [],
+          isFinished: [],
           external: [newAnime.errorMessage]
         },
         message: newAnime.errorMessage
@@ -112,6 +120,11 @@ export const createAnime = async (prevState: animeState, formData : FormData) =>
     console.log(err)
     return {
       errors: {
+        title: [],
+        poster: [],
+        rate: [],
+        description: [],
+        isFinished: [],
         external: ['Unexpected Error, try again']
       },
       message: 'Unexpected Error, try again'
@@ -122,7 +135,7 @@ export const createAnime = async (prevState: animeState, formData : FormData) =>
   redirect('/animes')
 }
 
-export const updateAnime = async (id: string, prevState: animeState, formData : FormData) => {
+export const updateAnime = async (id: string, prevState: AnimeState, formData : FormData) => {
   const session = await getServerSession()
   const email = session?.user?.email
 
@@ -131,7 +144,7 @@ export const updateAnime = async (id: string, prevState: animeState, formData : 
     title: formData.get('anime-title'),
     poster: formData.get('anime-poster'),
     rate: rates.map((value, index) => ({
-      rate: parseInt(value),
+      rate: parseInt(value.toString()),
       value: formData.getAll('anime-rate-value')[index]
     })),
     description: formData.get('anime-description'),
@@ -142,7 +155,10 @@ export const updateAnime = async (id: string, prevState: animeState, formData : 
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: {
+        external: [],
+        ...validatedFields.error.flatten().fieldErrors,
+      },   
       message: 'Missing Fields. Failed to Edit Anime.'
     }
   }
@@ -162,14 +178,25 @@ export const updateAnime = async (id: string, prevState: animeState, formData : 
     if (updatedAnime.errorMessage) {
       return {
         errors: {
+          title: [],
+          poster: [],
+          rate: [],
+          description: [],
+          isFinished: [],
           external: [updatedAnime.errorMessage]
         },
         message: updatedAnime.errorMessage
       }
     }
   } catch (err) {
+    console.log(err)
     return {
       errors: {
+        title: [],
+        poster: [],
+        rate: [],
+        description: [],
+        isFinished: [],
         external: ['Unexpected Error, try again']
       },
       message: 'Unexpected Error, try again'

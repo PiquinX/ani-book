@@ -57,16 +57,20 @@ export const createBook = async (prevState: State, formData : FormData) => {
   const session = await getServerSession()
   const email = session?.user?.email
 
+  const rate = formData.get('book-rate')
   const validatedFields = CreateBookFormSchema.safeParse({
     title: formData.get('book-title'),
     poster: formData.get('book-poster'),
-    rate: parseInt(formData.get('book-rate')),
+    rate: parseInt(rate?.toString() || '1'),
     description: formData.get('book-description')
   })
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: {
+        external: [],
+        ...validatedFields.error.flatten().fieldErrors,
+      }, 
       message: 'Missing Fields. Failed to Create Book.'
     }
   }
@@ -88,6 +92,10 @@ export const createBook = async (prevState: State, formData : FormData) => {
     if (newBook.errorMessage) {
       return {
         errors: {
+          title: [],
+          poster: [],
+          rate: [],
+          description: [],
           external: [newBook.errorMessage]
         },
         message: newBook.errorMessage
@@ -97,6 +105,10 @@ export const createBook = async (prevState: State, formData : FormData) => {
     console.log(err)
     return {
       errors: {
+        title: [],
+        poster: [],
+        rate: [],
+        description: [],
         external: ['Unexpected Error, try again']
       },
       message: 'Unexpected Error, try again'
@@ -111,16 +123,20 @@ export const updateBook = async (id: string, prevState: State, formData : FormDa
   const session = await getServerSession()
   const email = session?.user?.email
 
+  const rate = formData.get('book-rate')
   const validatedFields = CreateBookFormSchema.safeParse({
     title: formData.get('book-title'),
     poster: formData.get('book-poster'),
-    rate: parseInt(formData.get('book-rate')),
+    rate: parseInt(rate?.toString() || '1'),
     description: formData.get('book-description')
   })
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: {
+        external: [],
+        ...validatedFields.error.flatten().fieldErrors,
+      }, 
       message: 'Missing Fields. Failed to Edit Book.'
     }
   }
@@ -142,6 +158,10 @@ export const updateBook = async (id: string, prevState: State, formData : FormDa
     if (updatedBook.errorMessage) {
       return {
         errors: {
+          title: [],
+          poster: [],
+          rate: [],
+          description: [],
           external: [updatedBook.errorMessage]
         },
         message: updatedBook.errorMessage
@@ -151,6 +171,10 @@ export const updateBook = async (id: string, prevState: State, formData : FormDa
     console.log(err)
     return {
       errors: {
+        title: [],
+        poster: [],
+        rate: [],
+        description: [],
         external: ['Unexpected Error, try again']
       },
       message: 'Unexpected Error, try again'

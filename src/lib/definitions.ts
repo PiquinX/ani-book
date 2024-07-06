@@ -78,25 +78,28 @@ export interface ErrorType {
     errorMessage: string
 }
 
+
 export type State = {
-    errors: {
-      title?: string[]
-      poster?: string[]
-      rate?: string[]
-      external?: string[]
+    errors?: {
+        title?: string[]
+        poster?: string[]
+        rate?: string[]
+        description?: string[]
+        external?: string[]
     }
-    message: string | null
+    message?: string | null
 }
 
-export interface animeState {
-    errors: {
+export type AnimeState = {  
+    errors?: {
         title?: string[]
         poster?: string[]
         rate?: string[]
         isFinished?: string[]
+        description?: string[]
         external?: string[]
     }
-    message: string | null
+    message?: string | null
 }
 
 export interface ClickEvent extends MouseEvent {

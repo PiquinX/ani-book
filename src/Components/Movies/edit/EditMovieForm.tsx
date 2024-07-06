@@ -16,7 +16,6 @@ export default function EditMovieForm ({ id, title, poster, rate, description }:
       poster: [],
       rate: [],
       description: [],
-      isFinished: [],
       external: [],
     },
   }
@@ -54,7 +53,7 @@ export default function EditMovieForm ({ id, title, poster, rate, description }:
               describedBy='movie-rate-error'
               border={false}
               style='[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-              defaultValue={rate}
+              defaultValue={rate.toString()}
             />
             <FormErrorMessage id='movie-rate-error' errors={state.errors.rate} />
 

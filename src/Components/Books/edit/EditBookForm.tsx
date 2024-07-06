@@ -16,7 +16,6 @@ export default function EditBookForm ({ id, title, poster, rate, description }: 
       poster: [],
       rate: [],
       description: [],
-      isFinished: [],
       external: [],
     },
   }
@@ -34,7 +33,7 @@ export default function EditBookForm ({ id, title, poster, rate, description }: 
               describedBy='book-title-error'
               defaultValue={title}
             />
-            <FormErrorMessage id='book-title-error' errors={state.errors.title} />
+            <FormErrorMessage id='book-title-error' errors={state.errors?.title} />
 
             <div className='flex gap-2 flex-col'>
               <Input
@@ -54,7 +53,7 @@ export default function EditBookForm ({ id, title, poster, rate, description }: 
               describedBy='book-rate-error'
               border={false}
               style='[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-              defaultValue={rate}
+              defaultValue={rate.toString()}
             />
             <FormErrorMessage id='book-rate-error' errors={state.errors.rate} />
 

@@ -12,7 +12,6 @@ export default function AddBookForm () {
       poster: [],
       rate: [],
       description: [],
-      isFinished: [],
       external: [],
     },
   }

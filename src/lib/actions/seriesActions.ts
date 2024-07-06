@@ -60,13 +60,16 @@ export const createSerie = async (prevState: State, formData : FormData) => {
   const validatedFields = CreateSerieFormSchema.safeParse({
     title: formData.get('serie-title'),
     poster: formData.get('serie-poster'),
-    rate: parseInt(formData.get('serie-rate')),
+    rate: parseInt(formData.get('serie-rate')?.toString() || '1'),
     description: formData.get('serie-description')
   })
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: {
+        external: [],
+        ...validatedFields.error.flatten().fieldErrors,
+      }, 
       message: 'Missing Fields. Failed to Create Serie.'
     }
   }
@@ -88,6 +91,10 @@ export const createSerie = async (prevState: State, formData : FormData) => {
     if (newSerie.errorMessage) {
       return {
         errors: {
+          title: [],
+          poster: [],
+          rate: [],
+          description: [],
           external: [newSerie.errorMessage]
         },
         message: newSerie.errorMessage
@@ -97,6 +104,10 @@ export const createSerie = async (prevState: State, formData : FormData) => {
     console.log(err)
     return {
       errors: {
+        title: [],
+        poster: [],
+        rate: [],
+        description: [],
         external: ['Unexpected Error, try again']
       },
       message: 'Unexpected Error, try again'
@@ -114,13 +125,16 @@ export const updateSerie = async (id: string, prevState: State, formData : FormD
   const validatedFields = CreateSerieFormSchema.safeParse({
     title: formData.get('serie-title'),
     poster: formData.get('serie-poster'),
-    rate: parseInt(formData.get('serie-rate')),
+    rate: parseInt(formData.get('serie-rate')?.toString() || '1'),
     description: formData.get('serie-description')
   })
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: {
+        external: [],
+        ...validatedFields.error.flatten().fieldErrors,
+      }, 
       message: 'Missing Fields. Failed to Edit Serie.'
     }
   }
@@ -140,6 +154,10 @@ export const updateSerie = async (id: string, prevState: State, formData : FormD
     if (updatedSerie.errorMessage) {
       return {
         errors: {
+          title: [],
+          poster: [],
+          rate: [],
+          description: [],
           external: [updatedSerie.errorMessage]
         },
         message: updatedSerie.errorMessage
@@ -148,6 +166,10 @@ export const updateSerie = async (id: string, prevState: State, formData : FormD
   } catch (err) {
     return {
       errors: {
+        title: [],
+        poster: [],
+        rate: [],
+        description: [],
         external: ['Unexpected Error, try again']
       },
       message: 'Unexpected Error, try again'

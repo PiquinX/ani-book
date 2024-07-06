@@ -61,13 +61,16 @@ export const createMovie = async (prevState: State, formData : FormData) => {
   const validatedFields = CreateMovieFormSchema.safeParse({
     title: formData.get('movie-title'),
     poster: formData.get('movie-poster'),
-    rate: parseInt(formData.get('movie-rate')),
+    rate: parseInt(formData.get('movie-rate')?.toString() || '1'),
     description: formData.get('movie-description')
   })
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: {
+        external: [],
+        ...validatedFields.error.flatten().fieldErrors,
+      }, 
       message: 'Missing Fields. Failed to Create Movie.'
     }
   }
@@ -89,6 +92,10 @@ export const createMovie = async (prevState: State, formData : FormData) => {
     if (newMovie.errorMessage) {
       return {
         errors: {
+          title: [],
+          poster: [],
+          rate: [],
+          description: [],
           external: [newMovie.errorMessage]
         },
         message: newMovie.errorMessage
@@ -98,6 +105,10 @@ export const createMovie = async (prevState: State, formData : FormData) => {
     console.log(err)
     return {
       errors: {
+        title: [],
+        poster: [],
+        rate: [],
+        description: [],
         external: ['Unexpected Error, try again']
       },
       message: 'Unexpected Error, try again'
@@ -115,7 +126,7 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
   const validatedFields = CreateMovieFormSchema.safeParse({
     title: formData.get('movie-title'),
     poster: formData.get('movie-poster'),
-    rate: parseInt(formData.get('movie-rate')),
+    rate: parseInt(formData.get('movie-rate')?.toString() || '1'),
     description: formData.get('movie-description')
   })
 
@@ -123,7 +134,10 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: {
+        external: [],
+        ...validatedFields.error.flatten().fieldErrors,
+      }, 
       message: 'Missing Fields. Failed to Edit Movie.'
     }
   }
@@ -143,6 +157,10 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
     if (updatedMovie.errorMessage) {
       return {
         errors: {
+          title: [],
+          poster: [],
+          rate: [],
+          description: [],
           external: [updatedMovie.errorMessage]
         },
         message: updatedMovie.errorMessage
@@ -152,6 +170,10 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
     console.log({ err })
     return {
       errors: {
+        title: [],
+        poster: [],
+        rate: [],
+        description: [],
         external: ['Unexpected Error, try again']
       },
       message: 'Unexpected Error, try again'

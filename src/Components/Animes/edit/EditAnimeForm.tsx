@@ -10,7 +10,6 @@ import { Select } from '@/Components/forms/Select'
 import { animeIsFinishedOptions } from '@/lib/consts'
 import EditRateValueInput from './EditRateValueInput'
 import { useState } from 'react'
-import { useSession } from 'next-auth/react'
 
 export default function EditAnimeForm ({ id, title, poster, rate, description, isFinished }: AnimeUpdateType) {
   const updateAnimeWithID = updateAnime.bind(null, id)
@@ -86,7 +85,7 @@ export default function EditAnimeForm ({ id, title, poster, rate, description, i
                         describedBy='anime-rate-error'
                         border={false}
                         style='[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                        defaultValue={value.rate}
+                        defaultValue={value.rate?.toString()}
                       />
                     </div>
                   ))

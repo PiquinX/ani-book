@@ -1,6 +1,6 @@
 interface Props {
     id: string
-    errors: string[] | null
+    errors: string[] | undefined
 }
 
 const FormErrorMessage: React.FC<Props> = ({ id, errors }) => {

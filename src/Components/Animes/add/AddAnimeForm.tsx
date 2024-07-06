@@ -11,15 +11,15 @@ import EditRateValueInput from '../edit/EditRateValueInput'
 
 export default function AddAnimeForm () {
   const initialState = {
-    message: '',
+    message: null,
     errors: {
       title: [],
       poster: [],
       rate: [],
       description: [],
       isFinished: [],
-      external: [],
-    },
+      external: []
+    }
   }
   const [state, dispatch] = useFormState(createAnime, initialState)
 
@@ -78,7 +78,7 @@ export default function AddAnimeForm () {
                         placeholder='Rate from 0 to 100'
                         describedBy='anime-rate-error'
                         style='[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                        defaultValue={value.rate}
+                        defaultValue={value.rate?.toString()}
                       />
                     </div>
                   ))
