@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { ClickEvent } from '@/lib/definitions'
 
 export function useSelect (): {
     isShowing: boolean,
@@ -18,8 +17,10 @@ export function useSelect (): {
   }, [])
 
   // funcion que chequea que estes tocando el select.
-  const functinalitySelect = (e: ClickEvent) => {
-    const isSelectButton = e.target.matches('[data-dropdown-button]')
+  const functinalitySelect = (e: MouseEvent) => {
+    const target = e.target as HTMLElement
+
+    const isSelectButton = target.matches('[data-dropdown-button]')
 
     if (!isSelectButton) setIsShowing(false)
   }

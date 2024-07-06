@@ -22,9 +22,15 @@ export function Select ({ options, defaultValue, name, describedBy }: Props): Re
   const clickHandle = () => setIsShowing(!isShowing)
 
   // Updates the selectValue and closes the select.
-  const handleOption = (e: ClickEvent) => {
+  const handleOption = (e: React.MouseEvent) => {
+    const target = e.target as HTMLDivElement
+    const newValue = target.textContent
+
+    if (!newValue) return
+
     setIsShowing(false)
-    setValue(e.target.textContent)
+
+    setValue(newValue)
   }
 
   return (
