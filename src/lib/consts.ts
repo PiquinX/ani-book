@@ -3,4 +3,4 @@ export const animeIsFinishedOptions = {
   notFinished: 'To be animated'
 }
 
-export const APIstring = 'https://my-entertainment-list-api.vercel.app'
+export const APIstring = process.env.APISTRING
