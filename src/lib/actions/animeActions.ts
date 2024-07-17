@@ -57,6 +57,7 @@ export const getAnimeByID = async ({ id }: { id: string }): Promise<AnimeType | 
       averageRate: anime.averageRate
     }
   } catch (err) {
+    console.log(err)
     return false
   }
 }
