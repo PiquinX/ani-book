@@ -30,6 +30,8 @@ export const AnimesList: React.FC<Props> = ({ animes }) => {
 
 const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
     const rateStyle = rateColor(anime.averageRate)
+    const date = anime.createdAt.split(' ')
+
     return (
         <Link
             href={`/animes/edit-anime/${anime.id}`}
@@ -53,7 +55,7 @@ const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
                 </div>
             </div>
             <div>
-                Created at: {anime.createdAt.split('T')[0]}
+                Created at: {date[2] + ' ' + date[1] + ' ' + date[3]}
             </div>
         </Link>
     )
