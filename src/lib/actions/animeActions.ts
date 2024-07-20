@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { AnimeRate, AnimeResponseType, AnimeType, AnimeState } from '../definitions'
+import { AnimeRate, AnimeResponseType, AnimeType, AnimeState, AnimeListState } from '../definitions'
 import { redirect } from 'next/navigation'
 import { CreateAnimeFormSchema } from '../schemas'
 import { animeIsFinishedOptions, APIstring } from '../consts'
@@ -152,8 +152,6 @@ export const updateAnime = async (id: string, prevState: AnimeState, formData : 
     isFinished: formData.get('anime-isfinished') === animeIsFinishedOptions.finished
   })
 
-  console.log(formData.get('anime-isfinished'))
-
   if (!validatedFields.success) {
     return {
       errors: {
@@ -209,33 +207,47 @@ export const updateAnime = async (id: string, prevState: AnimeState, formData : 
   redirect('/animes')
 }
 
-// export const addAnimeRate = async ({ id } : { id: string}): Promise<void> => {
-//   try {
-//     await fetch(`${APIstring}/animes/add-rate/${id}`, {
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       method: 'PATCH'
-//     })
-//   } catch (err) {
-//   }
+export async function addAnimeList (prevState: AnimeListState, formData: FormData) {
+  const session = await getServerSession()
+  const email = session?.user?.email
 
-//   revalidatePath(`/animes/edit-anime/${id}`)
-//   revalidatePath('/animes')
-// }
+  const list = (formData.get('anime-list') || '').toString().split('')
 
-// export const removeAnimeRate = async ({ id, rate }: { id: string, rate: AnimeRate}) => {
-//   try {
-//     await fetch(`${APIstring}/animes/remove-rate/${id}`, {
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       method: 'PATCH',
-//       body: JSON.stringify(rate)
-//     })
-//   } catch (err) {
-//   }
+  list.unshift('[')
+  list.push(']')
 
-//   revalidatePath(`/animes/edit-anime/${id}`)
-//   revalidatePath('/animes')
-// }
+  const stringList = list.join('')
+
+  try {
+    const response = await fetch(`${APIstring}/animes/add-list/${email}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: stringList
+    })
+    const newAnimes = await response.json()
+
+    console.log(newAnimes)
+
+    if (newAnimes.errorMessage) {
+      return {
+        errors: {
+          list: [newAnimes.errorMessage]
+        },
+        message: newAnimes.errorMessage
+      }
+    }
+  } catch (err) {
+    console.log(err)
+    return {
+      errors: {
+        list: ['Unexpected Error, try again']
+      },
+      message: 'Unexpected Error, try again'
+    }
+  }
+
+  revalidatePath('/animes')
+  redirect('/animes')
+}

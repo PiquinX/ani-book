@@ -3,6 +3,7 @@
 import { usePopUp } from '@/hooks/usePopUp'
 import AddAnimeForm from '@/Components/Animes/add/AddAnimeForm'
 import Link from 'next/link'
+import AddAnimeListForm from '@/Components/Animes/add/AddAnimeListForm'
 
 export default function Page () {
   const { popUpData } = usePopUp({ newPath: '/animes' })
@@ -17,11 +18,11 @@ export default function Page () {
             >
               <div className='flex items-center justify-between w-full px-6 pb-5'>
                 <Link
-                  href='/animes/add-anime/list'
+                  href='/animes/add-anime'
                   className="bg-blue-500 rounded px-3 py-2 font-medium text-white"
                   scroll={false}
                 >
-                  Add list
+                  Return
                 </Link>
                 <Link
                   href='/animes'
@@ -31,7 +32,7 @@ export default function Page () {
                   <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500"/>
                 </Link>
               </div>
-              <AddAnimeForm />
+              <AddAnimeListForm />
             </div>
         </div>
   )

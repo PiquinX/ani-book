@@ -4,6 +4,7 @@ import { rateColor } from '@/lib/utlis'
 import Link from 'next/link'
 import React from 'react'
 import AddCard from '@/Components/show/AddCard'
+import { Date } from '@/Components/show/Date'
 
 type AnimeWithoutRate = Omit<AnimeType, 'rate'>
 
@@ -30,7 +31,6 @@ export const AnimesList: React.FC<Props> = ({ animes }) => {
 
 const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
     const rateStyle = rateColor(anime.averageRate)
-    const date = anime.createdAt.split(' ')
 
     return (
         <Link
@@ -55,7 +55,7 @@ const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
                 </div>
             </div>
             <div>
-                Created at: {date[2] + ' ' + date[1] + ' ' + date[3]}
+                Created at: <Date date={anime.createdAt} />
             </div>
         </Link>
     )

@@ -101,3 +101,10 @@ export type AnimeState = {
     }
     message?: string | null
 }
+
+export type AnimeListState = {  
+    errors?: {
+        list?: string[]
+    }
+    message?: string | null
+}

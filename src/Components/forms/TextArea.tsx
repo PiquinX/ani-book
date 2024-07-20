@@ -19,7 +19,7 @@ const TextArea: React.FC<Partial<Props>> = (
   const id = useId()
 
   return (
-        <div className="relative">
+        <div className="relative h-full">
             <textarea
                 className={`${border ? 'outline-gray-500' : ''} ${style} text-area w-full h-full px-3 py-2 outline-1 duration-75 text-md text-black  rounded-sm outline-none 
                         focus:outline-blue-700 focus:outline-2
