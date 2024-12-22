@@ -1,6 +1,5 @@
 import { animeIsFinishedOptions } from '@/lib/consts'
 import { AnimeType } from '@/lib/definitions'
-import { rateColor } from '@/lib/utlis'
 import Link from 'next/link'
 import React from 'react'
 import AddCard from '@/Components/show/AddCard'
