@@ -62,6 +62,17 @@ export interface AnimeResponseType extends Omit<AnimeType, 'id'>{
 
 export type AnimeUpdateType = Omit<AnimeType, 'createdAt'>
 export type AnimeFormType = Omit<AnimeType, 'id' | 'createdAt'>
+export interface AnimeToShowType extends Omit<AnimeType, 'rate'>{
+    seasons: number
+}
+
+export type AnimeFilters = {
+    search: string | null
+    minSeasons: number | null
+    maxSeasons: number | null
+    rate: string | null
+    isFinished: string
+}
 
 // Lists
 export type BooksListType = BookType[]

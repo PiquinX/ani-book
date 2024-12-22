@@ -15,14 +15,14 @@ export default function Page () {
             <div
                 className='rounded-lg animate-appear-fast border bg-white opacity-100 w-full md:w-[38rem] lg:w-[48rem] h-[70%] duration-150 py-5 flex flex-col items-center justify-center relative'
             >
-              <div className='flex items-center justify-between w-full px-6 pb-5'>
-                <Link
+              <div className='flex items-center justify-end w-full px-6 pb-5'>
+                {/* <Link
                   href='/animes/add-anime/list'
                   className="bg-blue-500 rounded px-3 py-2 font-medium text-white"
                   scroll={false}
                 >
                   Add list
-                </Link>
+                </Link> */}
                 <Link
                   href='/animes'
                   scroll={false}

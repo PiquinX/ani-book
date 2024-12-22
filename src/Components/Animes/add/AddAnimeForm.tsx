@@ -4,10 +4,11 @@ import FormErrorMessage from '@/Components/forms/FormErrorMessage'
 import { createAnime } from '@/lib/actions/animeActions'
 import TextArea from '@/Components/forms/TextArea'
 import { Select } from '@/Components/forms/Select'
-import { animeIsFinishedOptions } from '@/lib/consts'
+import { animeIsFinishedOptions, animeRateOptions } from '@/lib/consts'
 import { useState } from 'react'
 import { AnimeRate } from '@/lib/definitions'
 import EditRateValueInput from '../edit/EditRateValueInput'
+import { RateSelect } from '../edit/RateSelect'
 
 export default function AddAnimeForm () {
   const initialState = {
@@ -72,13 +73,11 @@ export default function AddAnimeForm () {
                         defaultValue={value.value}
                         name='anime-rate-value'
                       />
-                      <Input
-                        type='number'
-                        name='anime-rate'
-                        placeholder='Rate from 0 to 100'
-                        describedBy='anime-rate-error'
-                        style='[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                        defaultValue={value.rate?.toString()}
+                      <RateSelect
+                        defaultValue={value.rate || 0} 
+                        describedBy='anime-rate-error' 
+                        name='anime-rate' 
+                        options={Object.values(animeRateOptions)}
                       />
                     </div>
                   ))

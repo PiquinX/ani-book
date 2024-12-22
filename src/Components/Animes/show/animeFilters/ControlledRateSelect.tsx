@@ -1,20 +1,20 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import { useSelect } from '@/hooks/useSelect'
 
 interface Props {
     options: string[]
-    defaultValue: string
+    rateValue: string
     name: string
     describedBy?: string
     width?: string
+    onOptionChange (newValue: string): void
 }
 
-export function Select (
-  { options, defaultValue, name, describedBy, width = 'w-[200px] sm:w-[225px]' }: Props
+export function ControlledRateSelect (
+  { options, rateValue, name, describedBy, width = 'w-[200px] sm:w-[225px]', onOptionChange }: Props
 ): ReactNode {
   // The states contains if the select it's shown or not.
   const { isShowing, setIsShowing } = useSelect()
-  const [value, setValue] = useState(defaultValue)
 
   // We apply styles depending on the isShowing state.
   const selectClass = isShowing ? 'pointer-events-auto top-full opacity-100' : 'pointer-events-none top-1/2 opacity-0'
@@ -32,7 +32,7 @@ export function Select (
 
     setIsShowing(false)
 
-    setValue(newValue)
+    onOptionChange(newValue) 
   }
 
   return (
@@ -43,10 +43,10 @@ export function Select (
         className={`${buttonClass} ${width} cursor-pointer font-bold border-blue-900 duration-75 rounded border-2 flex py-1 pr-8 relative px-4 before:absolute before:duration-150 before:w-[.65rem] before:h-[.65rem] before:border-b-2 before:border-r-2 before:right-3`}
       >
         <span className='truncate w-full pointer-events-none select-none overflow-hidden'>
-          {value}
+          {rateValue}
         </span>
       </div>
-      <input className='hidden' aria-describedby={describedBy} value={value} name={name} />
+      <input className='hidden' aria-describedby={describedBy} value={rateValue} name={name} />
 
       <div className={`${selectClass} ${width} min-w-max duration-75 absolute bg-white text-blue-700 font-bold border-2 border-blue-700 shadow-select z-50 rounded `}>
         {

@@ -1,13 +1,13 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { AnimeRate, AnimeResponseType, AnimeType, AnimeState, AnimeListState } from '../definitions'
+import { AnimeRate, AnimeResponseType, AnimeType, AnimeState, AnimeListState, AnimeToShowType } from '../definitions'
 import { redirect } from 'next/navigation'
 import { CreateAnimeFormSchema } from '../schemas'
 import { animeIsFinishedOptions, APIstring } from '../consts'
 import { getServerSession } from 'next-auth/next'
 
-export const getAnimes = async (): Promise< Omit<AnimeType, 'rate'>[] | false> => {
+export const getAnimes = async (): Promise< AnimeToShowType[] | null> => {
   const session = await getServerSession()
   const email = session?.user?.email
 
@@ -23,11 +23,12 @@ export const getAnimes = async (): Promise< Omit<AnimeType, 'rate'>[] | false> =
       createdAt: anime.createdAt,
       description: anime.description,
       isFinished: anime.isFinished,
-      averageRate: anime.averageRate
+      averageRate: anime.averageRate,
+      seasons: anime.rate.length
     }))
   } catch (err) {
     console.log(err)
-    return false
+    return null
   }
 }
 
@@ -212,7 +213,7 @@ export async function addAnimeList (prevState: AnimeListState, formData: FormDat
   const email = session?.user?.email
 
   const list = (formData.get('anime-list') || '').toString().split('')
-
+  
   list.unshift('[')
   list.push(']')
 

@@ -7,9 +7,10 @@ import FormErrorMessage from '@/Components/forms/FormErrorMessage'
 import { updateAnime } from '@/lib/actions/animeActions'
 import TextArea from '@/Components/forms/TextArea'
 import { Select } from '@/Components/forms/Select'
-import { animeIsFinishedOptions } from '@/lib/consts'
+import { animeIsFinishedOptions, animeRateOptions } from '@/lib/consts'
 import EditRateValueInput from './EditRateValueInput'
 import { useState } from 'react'
+import { RateSelect } from './RateSelect'
 
 export default function EditAnimeForm ({ id, title, poster, rate, description, isFinished }: AnimeUpdateType) {
   const updateAnimeWithID = updateAnime.bind(null, id)
@@ -78,14 +79,11 @@ export default function EditAnimeForm ({ id, title, poster, rate, description, i
                         defaultValue={value.value}
                         name='anime-rate-value'
                       />
-                      <Input
-                        type='number'
-                        name='anime-rate'
-                        placeholder='Rate from 0 to 100'
-                        describedBy='anime-rate-error'
-                        border={false}
-                        style='[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                        defaultValue={value.rate?.toString()}
+                      <RateSelect 
+                        defaultValue={value.rate || 0} 
+                        describedBy='anime-rate-error' 
+                        name='anime-rate' 
+                        options={Object.values(animeRateOptions)}
                       />
                     </div>
                   ))

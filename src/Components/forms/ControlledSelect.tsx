@@ -1,20 +1,20 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import { useSelect } from '@/hooks/useSelect'
 
 interface Props {
     options: string[]
-    defaultValue: string
+    value: string
     name: string
     describedBy?: string
     width?: string
+    onOptionChange (newValue: string): void
 }
 
-export function Select (
-  { options, defaultValue, name, describedBy, width = 'w-[200px] sm:w-[225px]' }: Props
+export function ControlledSelect (
+  { options, value, name, describedBy, width = 'w-[200px] sm:w-[225px]', onOptionChange }: Props
 ): ReactNode {
   // The states contains if the select it's shown or not.
   const { isShowing, setIsShowing } = useSelect()
-  const [value, setValue] = useState(defaultValue)
 
   // We apply styles depending on the isShowing state.
   const selectClass = isShowing ? 'pointer-events-auto top-full opacity-100' : 'pointer-events-none top-1/2 opacity-0'
@@ -30,9 +30,8 @@ export function Select (
 
     if (!newValue) return
 
+    onOptionChange(newValue)
     setIsShowing(false)
-
-    setValue(newValue)
   }
 
   return (

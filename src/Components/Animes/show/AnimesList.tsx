@@ -5,6 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 import AddCard from '@/Components/show/AddCard'
 import { Date } from '@/Components/show/Date'
+import { AnimesTier } from './AnimeTier'
 
 type AnimeWithoutRate = Omit<AnimeType, 'rate'>
 
@@ -14,23 +15,24 @@ interface Props {
 
 export const AnimesList: React.FC<Props> = ({ animes }) => {
 
-  return (
-        <div
-            className="grid grid-cols-responsive gap-8"
-            data-testid='animes-list'
-        >
-            {
-                animes.map(anime => (
-                    <Anime anime={anime} key={anime.id} />
-                ))
-            }
-            <AddCard link='/animes/add-anime' />
-        </div>
-  )
+    const style = animes.length > 2 ? 'grid grid-cols-responsive' : 'flex flex-wrap justify-center flex-shrink md:justify-start'
+
+    return (
+            <div
+                className={`${style} gap-8`}
+                data-testid='animes-list'
+            >
+                {
+                    animes.map(anime => (
+                        <Anime anime={anime} key={anime.id} />
+                    ))
+                }
+                <AddCard link='/animes/add-anime' />
+            </div>
+    )
 }
 
 const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
-    const rateStyle = rateColor(anime.averageRate)
 
     return (
         <Link
@@ -45,16 +47,14 @@ const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
                 src={anime.poster}
                 alt={anime.title} />
             <div className='flex font-bold justify-between'>
-                <p>
-                    <span className={rateStyle}>
-                        {Math.round(anime.averageRate * 10) / 10}
-                    </span>/100
+                <p className='font-bold text-lg'>
+                    <AnimesTier averageRate={anime.averageRate} />
                 </p>
                 <div>
                     {anime.isFinished ? animeIsFinishedOptions.finished : animeIsFinishedOptions.notFinished}
                 </div>
             </div>
-            <div>
+            <div className='flex gap-11'>
                 Created at: <Date date={anime.createdAt} />
             </div>
         </Link>

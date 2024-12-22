@@ -7,6 +7,14 @@ const config: Config = {
     './src/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
+    screens: {
+      xs: { min: '390px' },
+      sm: { min: '500px' },
+      md: { min: '768px' },
+      lg: { min: '1024px' },
+      xl: { min: '1280px' },
+      '2xl': { min: '1600px' }
+    },
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -16,6 +24,9 @@ const config: Config = {
       gridTemplateColumns: {
         responsive: 'repeat(auto-fit, minmax(250px, 1fr))',
         rates: 'repeat(2, 1fr)'
+      },
+      gridTemplateRows: {
+        cart: '11% 74% 15%'
       },
       keyframes: {
         appear: {

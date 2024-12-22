@@ -45,7 +45,7 @@ const List: React.FC<Props> = ({ addLink, addText, list, listDataTestId, editLin
                                     {Math.round(item.rate * 10) / 10}
                                 </span>/100
                             </p>
-                            <div>
+                            <div className='flex'>
                                 Created at: {item.createdAt.split('T')[0]}
                             </div>
                         </Link>

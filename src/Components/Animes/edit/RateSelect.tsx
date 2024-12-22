@@ -1,20 +1,22 @@
 import { ReactNode, useState } from 'react'
 import { useSelect } from '@/hooks/useSelect'
+import { getRate, getTier } from '@/lib/utlis'
 
 interface Props {
     options: string[]
-    defaultValue: string
+    defaultValue: number
     name: string
     describedBy?: string
     width?: string
 }
 
-export function Select (
+export function RateSelect (
   { options, defaultValue, name, describedBy, width = 'w-[200px] sm:w-[225px]' }: Props
 ): ReactNode {
   // The states contains if the select it's shown or not.
   const { isShowing, setIsShowing } = useSelect()
-  const [value, setValue] = useState(defaultValue)
+  const [value, setValue] = useState(getTier(defaultValue))
+  const [inputValue, setInputValue] = useState(defaultValue)
 
   // We apply styles depending on the isShowing state.
   const selectClass = isShowing ? 'pointer-events-auto top-full opacity-100' : 'pointer-events-none top-1/2 opacity-0'
@@ -33,6 +35,7 @@ export function Select (
     setIsShowing(false)
 
     setValue(newValue)
+    setInputValue(getRate(newValue))
   }
 
   return (
@@ -46,7 +49,7 @@ export function Select (
           {value}
         </span>
       </div>
-      <input className='hidden' aria-describedby={describedBy} value={value} name={name} />
+      <input className='hidden' aria-describedby={describedBy} value={inputValue} name={name} />
 
       <div className={`${selectClass} ${width} min-w-max duration-75 absolute bg-white text-blue-700 font-bold border-2 border-blue-700 shadow-select z-50 rounded `}>
         {
