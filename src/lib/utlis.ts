@@ -56,11 +56,11 @@ export const rateColor = (rate: number): string => {
 export const filterAnimes = (animes: AnimeToShowType[], filters : AnimeFilters) => {
 
   if(filters.search){
-    animes = animes.filter(anime => anime.title.toUpperCase().includes(filters.search.toUpperCase()))
+    animes = animes.filter(anime => filters.search && anime.title.toUpperCase().includes(filters.search.toUpperCase()))
   }
 
   if((filters.maxSeasons!= null && filters.minSeasons != null) && filters.minSeasons < filters.maxSeasons ){
-    animes = animes.filter(anime => anime.seasons <= filters.maxSeasons && anime.seasons >= filters.minSeasons)
+    animes = animes.filter(anime => filters.maxSeasons && filters.minSeasons && (anime.seasons <= filters.maxSeasons && anime.seasons >= filters.minSeasons))
   }
 
   if(filters.rate){
