@@ -10,7 +10,9 @@ import { AnimeRate } from '@/lib/definitions'
 import EditRateValueInput from '../edit/EditRateValueInput'
 import { RateSelect } from '../edit/RateSelect'
 
-export default function AddAnimeForm () {
+export default function AddAnimeForm ({ searchParams }: { searchParams: URLSearchParams }) {
+  const params = searchParams ? searchParams.toString() : ''
+  const createAnimeWithParams = createAnime.bind(null, params)
   const initialState = {
     message: null,
     errors: {
@@ -22,7 +24,7 @@ export default function AddAnimeForm () {
       external: []
     }
   }
-  const [state, dispatch] = useFormState(createAnime, initialState)
+  const [state, dispatch] = useFormState(createAnimeWithParams, initialState);
 
   const [currentRate, setCurrentRate] = useState<AnimeRate[]>([{
     value: 'Season 1',
@@ -110,7 +112,7 @@ export default function AddAnimeForm () {
                 options={Object.values(animeIsFinishedOptions)}
                 describedBy='anime-isfinished-error'
                 name='anime-isfinished'
-                defaultValue={animeIsFinishedOptions.finished}
+                defaultValue={animeIsFinishedOptions.notFinished}
               />
               <FormErrorMessage id='anime-isfinished-error' errors={state.errors.isFinished} />
             </div>
@@ -120,7 +122,7 @@ export default function AddAnimeForm () {
               placeholder='Description'
               describedBy='anime-description-error'
             />
-            <FormErrorMessage id='anime-description-error' errors={state.errors.rate} />
+            <FormErrorMessage id='anime-description-error' errors={state.errors.description} />
 
             <FormErrorMessage id='anime-external-error' errors={state.errors.external} />
           </div>

@@ -13,6 +13,8 @@ interface Props {
 }
 
 export const AnimesList: React.FC<Props> = ({ animes }) => {
+    const searchParams = useSearchParams();
+    const params = new URLSearchParams(searchParams);
 
     const style = animes.length > 2 ? 'grid grid-cols-responsive' : 'flex flex-wrap justify-center flex-shrink md:justify-start'
 
@@ -26,16 +28,20 @@ export const AnimesList: React.FC<Props> = ({ animes }) => {
                         <Anime anime={anime} key={anime.id} />
                     ))
                 }
-                <AddCard link='/animes/add-anime' />
+                <AddCard link={`animes/add-anime?${params.toString()}`} />
             </div>
     )
 }
 
+import { useSearchParams } from 'next/navigation';
+
 const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
+    const searchParams = useSearchParams();
+    const params = new URLSearchParams(searchParams);
 
     return (
         <Link
-            href={`/animes/edit-anime/${anime.id}`}
+            href={`animes/edit-anime/${anime.id}?${params.toString()}`}
             scroll={false}
             key={anime.id}
             className="justify-self-center rounded hover:scale-105 duration-150 animate-appear-fast border w-72 p-5 flex flex-col gap-5"

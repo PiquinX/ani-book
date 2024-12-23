@@ -63,7 +63,7 @@ export const getAnimeByID = async ({ id }: { id: string }): Promise<AnimeType | 
   }
 }
 
-export async function createAnime(prevState: AnimeState, formData: FormData) {
+export async function createAnime(searchParams: string, prevState: AnimeState, formData: FormData) {
   const session = await getServerSession()
   const email = session?.user?.email
 
@@ -134,10 +134,10 @@ export async function createAnime(prevState: AnimeState, formData: FormData) {
   }
 
   revalidatePath('/animes')
-  redirect('/animes')
+  redirect(`/animes?${searchParams.toString()}`)
 }
 
-export const updateAnime = async (id: string, prevState: AnimeState, formData : FormData) => {
+export const updateAnime = async (id: string, searchParams: string, prevState: AnimeState, formData: FormData) => {
   const session = await getServerSession()
   const email = session?.user?.email
 
@@ -203,9 +203,10 @@ export const updateAnime = async (id: string, prevState: AnimeState, formData : 
     }
   }
 
+  console.log(searchParams)
   revalidatePath(`/animes/edit-anime/${id}`)
   revalidatePath('/animes')
-  redirect('/animes')
+  redirect(`/animes?${searchParams.toString()}`)
 }
 
 export async function addAnimeList (prevState: AnimeListState, formData: FormData) {

@@ -11,9 +11,12 @@ import { animeIsFinishedOptions, animeRateOptions } from '@/lib/consts'
 import EditRateValueInput from './EditRateValueInput'
 import { useState } from 'react'
 import { RateSelect } from './RateSelect'
+import { useSearchParams } from 'next/navigation'
 
 export default function EditAnimeForm ({ id, title, poster, rate, description, isFinished }: AnimeUpdateType) {
-  const updateAnimeWithID = updateAnime.bind(null, id)
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  const updateAnimeWithID = updateAnime.bind(null, id, params.toString())
   const initialState = {
     message: '',
     errors: {

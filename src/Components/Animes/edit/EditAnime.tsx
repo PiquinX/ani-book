@@ -4,10 +4,13 @@ import EditAnimeForm from './EditAnimeForm'
 import Link from 'next/link'
 import { AnimeType } from '@/lib/definitions'
 import { usePopUp } from '@/hooks/usePopUp'
+import { useSearchParams } from 'next/navigation'
 
 
-const EditAnime = ({ anime }: {anime : AnimeType}) => {
-  const { popUpData } = usePopUp({ newPath: '/animes' })
+const EditAnime = ({ anime }: { anime : AnimeType }) => {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  const { popUpData } = usePopUp({ newPath: `/animes?${params.toString()}` })
 
   return (
     <div
@@ -19,7 +22,7 @@ const EditAnime = ({ anime }: {anime : AnimeType}) => {
         >
           <Link
             scroll={false}
-            href='/animes'
+            href={`/animes?${params.toString()}`}
             className='absolute text-3xl text-gray-500  top-5 right-6'
           >
             <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500"/>

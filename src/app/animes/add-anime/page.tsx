@@ -3,9 +3,12 @@
 import { usePopUp } from '@/hooks/usePopUp'
 import AddAnimeForm from '@/Components/Animes/add/AddAnimeForm'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation';
 
 export default function Page () {
-  const { popUpData } = usePopUp({ newPath: '/animes' })
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  const { popUpData } = usePopUp({ newPath: `/animes?${params.toString()}` })
 
   return (
         <div
@@ -24,14 +27,14 @@ export default function Page () {
                   Add list
                 </Link> */}
                 <Link
-                  href='/animes'
+                  href={`/animes?${params.toString()}`}
                   scroll={false}
                   className='text-3xl text-gray-500'
                 >
                   <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500"/>
                 </Link>
               </div>
-              <AddAnimeForm />
+              <AddAnimeForm  />
             </div>
         </div>
   )
