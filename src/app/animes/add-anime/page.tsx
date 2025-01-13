@@ -34,7 +34,7 @@ export default function Page () {
                   <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500"/>
                 </Link>
               </div>
-              <AddAnimeForm  />
+              <AddAnimeForm searchParams={params} />
             </div>
         </div>
   )
