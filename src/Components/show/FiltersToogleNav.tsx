@@ -8,7 +8,7 @@ const FiltersToogleNav = ({ children }: { children: React.ReactNode }) => {
             <SideBar
                 side="left"
                 buttonContent={
-                    <span className='flex items-center gap-2 my-6 cursor-pointer w-max'>
+                    <span className='flex items-center gap-2 my-3 sm:my-6 cursor-pointer w-max'>
                         <i className='text-blue-500 text-xl fa-solid fa-filter'/>Filters
                     </span>
                 }

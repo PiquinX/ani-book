@@ -40,7 +40,7 @@ const SearchInput = () => {
   const xmarkClass = search.length > 0 ? 'block' : 'hidden'
 
   return (
-      <div className='relative group'>
+      <div className='relative group text-base'>
         <input
           tabIndex={1}
           id='search'

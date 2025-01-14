@@ -15,15 +15,15 @@ export const Header = () => {
   const pathName = usePathname()
 
   return (
-        <header className="flex w-full justify-between gap-4 border-b border-b-gray-300">
-          <div className='flex gap-4 w-max'>
+        <header className="flex w-full justify-between xs:gap-1 border-b text-xs border-b-gray-300 sm:gap-4 sm:text-base">
+          <div className='flex xs:gap-1 sm:gap-4 w-max'>
             {
               links.map((link, index) => (
                 <Link
                   href={link.href}
                   key={index}
                   scroll={false}
-                  className={`${pathName === link.href ? 'border-black' : 'hover:border-black border-transparent opacity-50'} px-3 py-2 rounded-t-md font-semibold duration-200 border-b-2`}
+                  className={`${pathName === link.href ? 'border-black' : 'hover:border-black border-transparent opacity-50'} px-2 xs:px-3 py-2 rounded-t-md font-semibold duration-200 border-b-2`}
                 >
                   {link.name}
                 </Link>

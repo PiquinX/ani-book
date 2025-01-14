@@ -49,15 +49,15 @@ export default function EditAnimeForm ({ id, title, poster, rate, description, i
   }
 
   return (
-    <div className='w-[80%] h-full flex flex-col py-10'>
+    <div className='w-full sm:w-[80%] h-[90%] flex flex-col sm:pb-4'>
         <form className='flex overflow-hidden flex-col gap-5' action={dispatch}>
-          <div className='flex px-10 py-5 bar overflow-hidden overflow-y-scroll flex-col gap-5'>
+          <div className='flex px-4 xs:px-6 sm:px-10 py-5 bar h-full overflow-hidden overflow-y-scroll flex-col gap-5'>
             <Input
               name='anime-title'
               placeholder='Title'
               describedBy='anime-title-error'
               border={false}
-              style='text-4xl text-blue-600'
+              style='text-lg sm:text-2xl md:text-4xl text-blue-600'
               defaultValue={title}
             />
             <FormErrorMessage id='anime-title-error' errors={state.errors.title} />
@@ -69,12 +69,12 @@ export default function EditAnimeForm ({ id, title, poster, rate, description, i
                 describedBy='anime-poster-error'
                 defaultValue={poster}
               />
-              <img className='rounded self-center w-[70%]' src={poster} alt={`${title} poster`} />
+              <img className='rounded self-center w-full px-2' src={poster} alt={`${title} poster`} />
               <FormErrorMessage id='anime-poster-error' errors={state.errors.poster} />
             </div>
 
             <div className='flex flex-col gap-6'>
-              <div className='grid grid-cols-rates gap-5'>
+              <div className='flex flex-col items-center lg:grid lg:grid-cols-rates gap-5'>
                 {
                   currentRate.map((value, index) => (
                     <div className='flex flex-col gap-5' key={index}>
@@ -92,7 +92,7 @@ export default function EditAnimeForm ({ id, title, poster, rate, description, i
                   ))
                 }
               </div>
-              <div className='flex gap-5'>
+              <div className='flex gap-1 xs:gap-2 sm:gap-5'>
                 <div
                   className='hover:bg-green-600 text-center cursor-pointer hover:text-white duration-200 w-full py-2 border-2 font-medium rounded text-green-600 border-green-600'
                   onClick={handleAddRate}

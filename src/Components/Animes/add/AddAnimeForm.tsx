@@ -48,10 +48,10 @@ export default function AddAnimeForm ({ searchParams }: { searchParams: URLSearc
   }
 
   return (
-    <div className='w-[80%] h-[90%] flex flex-col pb-4'>
-        <h3 className='text-center text-2xl font-semibold text-blue-600'>Add a new anime to the list.</h3>
+    <div className='w-full sm:w-[80%] h-[90%] flex flex-col pb-4'>
+        <h3 className='text-center text-2xl font-semibold text-blue-600'>Add a new anime <span className='hidden sm:block'>to the list.</span></h3>
         <form className='flex h-full overflow-hidden flex-col gap-5' action={dispatch}>
-          <div className='flex px-10 py-5 bar h-full overflow-hidden overflow-y-scroll flex-col gap-5'>
+          <div className='flex px-4 xs:px-6 sm:px-10 py-5 bar h-full overflow-hidden overflow-y-scroll flex-col gap-5'>
             <Input
               name='anime-title'
               placeholder='Title'
@@ -67,7 +67,7 @@ export default function AddAnimeForm ({ searchParams }: { searchParams: URLSearc
             <FormErrorMessage id='anime-poster-error' errors={state.errors.poster} />
 
             <div className='flex flex-col gap-6'>
-              <div className='grid grid-cols-rates gap-5'>
+              <div className='flex flex-col items-center lg:grid lg:grid-cols-rates gap-5'>
                 {
                   currentRate.map((value, index) => (
                     <div className='flex flex-col gap-5' key={index}>
@@ -85,7 +85,7 @@ export default function AddAnimeForm ({ searchParams }: { searchParams: URLSearc
                   ))
                 }
               </div>
-              <div className='flex gap-5'>
+              <div className='flex gap-1 xs:gap-2 sm:gap-5'>
                 <div
                   className='hover:bg-green-600 text-center cursor-pointer hover:text-white duration-200 w-full py-2 border-2 font-medium rounded text-green-600 border-green-600'
                   onClick={handleAddRate}
