@@ -2,28 +2,37 @@
 
 import { FILTERPARAMSOPTIONS } from "@/lib/consts"
 import { useSearchParams, useRouter } from "next/navigation"
+import debounce from 'just-debounce-it'
+import { useCallback, useState } from "react"
 
-const SearchInput = () => {
+const AnimeSearchInput = () => {
   const searchParams = useSearchParams()
   const { replace } = useRouter()
+  const [search, setSearch] = useState(searchParams.get(FILTERPARAMSOPTIONS.search) || '')
 
-  const search = searchParams.get(FILTERPARAMSOPTIONS.search) || ''
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedUpdateURL = useCallback(
+    debounce((search: string) => {
+      const params = new URLSearchParams(searchParams)
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const newSearch = event.target.value
-
-    const params = new URLSearchParams(searchParams)
-
-    if (newSearch.length > 0) {
-      // Changing the search
-      params.set(FILTERPARAMSOPTIONS.search, newSearch)
-    } else {
-      params.delete(FILTERPARAMSOPTIONS.search)
-    }
+      if (search.length > 0) {
+        // Changing the search
+        params.set(FILTERPARAMSOPTIONS.search, search)
+      } else {
+        params.delete(FILTERPARAMSOPTIONS.search)
+      }
 
       replace(`/animes?${params.toString()}`, {
         scroll: false
       })
+    }, 350)
+  , [])
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const newSearch = event.target.value
+
+    setSearch(newSearch)
+    debouncedUpdateURL(newSearch)
   }  
 
   const restartSearch = (): void => {
@@ -31,6 +40,7 @@ const SearchInput = () => {
 
     params.delete(FILTERPARAMSOPTIONS.search)
 
+    setSearch('')
     replace(`/animes?${params.toString()}`)
   }
   
@@ -64,4 +74,4 @@ const SearchInput = () => {
       </div>
   )
 }
-export default SearchInput
+export default AnimeSearchInput

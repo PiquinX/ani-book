@@ -3,6 +3,7 @@ import { useSelect } from '@/hooks/useSelect'
 import { getRate, getTier } from '@/lib/utlis'
 
 interface Props {
+    id: string
     options: string[]
     defaultValue: number
     name: string
@@ -11,10 +12,10 @@ interface Props {
 }
 
 export function RateSelect (
-  { options, defaultValue, name, describedBy, width = 'w-[200px] sm:w-[225px]' }: Props
+  { id, options, defaultValue, name, describedBy, width = 'w-[200px] sm:w-[225px]' }: Props
 ): ReactNode {
   // The states contains if the select it's shown or not.
-  const { isShowing, setIsShowing } = useSelect()
+  const { isShowing, setIsShowing } = useSelect(id)
   const [value, setValue] = useState(getTier(defaultValue))
   const [inputValue, setInputValue] = useState(defaultValue)
 
@@ -41,7 +42,7 @@ export function RateSelect (
   return (
     <div className={`relative text-sm select-none sm:text-base ${width}`}>
       <div
-        data-dropdown-button
+        id={id}
         onClick={handleClick}
         className={`${buttonClass} ${width} cursor-pointer font-bold border-blue-900 duration-75 rounded border-2 flex py-1 pr-8 relative px-4 before:absolute before:duration-150 before:w-[.65rem] before:h-[.65rem] before:border-b-2 before:border-r-2 before:right-3`}
       >

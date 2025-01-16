@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export function useSelect (): {
+export function useSelect (id: string): {
     isShowing: boolean,
     setIsShowing: (value: boolean) => void
     } {
@@ -9,21 +9,17 @@ export function useSelect (): {
 
   // Efecto que agrega el event listener para que el select tenga funcionalidad
   useEffect(() => {
-    document.addEventListener('click', functinalitySelect)
-
-    return () => {
-      document.removeEventListener('click', functinalitySelect)
-    }
+    document.addEventListener('click', (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+  
+      const isSelectButton = target.getAttribute('id') === id
+  
+      if (!isSelectButton) setIsShowing(false)
+    })
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // funcion que chequea que estes tocando el select.
-  const functinalitySelect = (e: MouseEvent) => {
-    const target = e.target as HTMLElement
-
-    const isSelectButton = target.matches('[data-dropdown-button]')
-
-    if (!isSelectButton) setIsShowing(false)
-  }
 
   return { isShowing, setIsShowing }
 }

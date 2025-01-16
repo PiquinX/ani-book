@@ -9,7 +9,7 @@ import TextArea from '@/Components/forms/TextArea'
 import { Select } from '@/Components/forms/Select'
 import { animeIsFinishedOptions, animeRateOptions } from '@/lib/consts'
 import EditRateValueInput from './EditRateValueInput'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { RateSelect } from './RateSelect'
 import { useSearchParams } from 'next/navigation'
 
@@ -48,6 +48,8 @@ export default function EditAnimeForm ({ id, title, poster, rate, description, i
     setCurrentRate(newRate)
   }
 
+  const selectId = useId()
+
   return (
     <div className='w-full sm:w-[80%] h-[90%] flex flex-col sm:pb-4'>
         <form className='flex overflow-hidden flex-col gap-5' action={dispatch}>
@@ -83,6 +85,7 @@ export default function EditAnimeForm ({ id, title, poster, rate, description, i
                         name='anime-rate-value'
                       />
                       <RateSelect 
+                        id={selectId}
                         defaultValue={value.rate || 0} 
                         describedBy='anime-rate-error' 
                         name='anime-rate' 

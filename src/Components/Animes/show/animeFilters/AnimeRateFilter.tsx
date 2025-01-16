@@ -1,8 +1,10 @@
 import { animeRateOptions, FILTERPARAMSOPTIONS } from "@/lib/consts"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ControlledRateSelect } from "./ControlledRateSelect"
+import { useId } from "react"
 
 const AnimeRateFilter = () => {
+    const id = useId()
     const searchParams = useSearchParams()
     const { replace } = useRouter()
 
@@ -29,6 +31,7 @@ const AnimeRateFilter = () => {
             </div>
             <div className='flex gap-2 px-2'>
                 <ControlledRateSelect
+                    id={id}
                     onOptionChange={handleUpdateRate}
                     rateValue={rate} 
                     name='anime-rate' 

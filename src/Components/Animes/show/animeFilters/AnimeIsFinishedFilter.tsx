@@ -1,8 +1,10 @@
 import { ControlledSelect } from "@/Components/forms/ControlledSelect"
 import { animeIsFinishedOptionsFilter, FILTERPARAMSOPTIONS } from "@/lib/consts"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useId } from "react"
 
 const AnimeIsFinishedFilter = () => {
+    const id = useId()
     const searchParams = useSearchParams()
     const { replace } = useRouter()
 
@@ -28,6 +30,7 @@ const AnimeIsFinishedFilter = () => {
             </div>
             <div className='flex justify-center'>
                 <ControlledSelect
+                    id={id}
                     onOptionChange={handleUpdateIsFinished}
                     name="sort-select"
                     width="w-full"

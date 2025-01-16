@@ -1,6 +1,6 @@
 'use client'
 
-import SearchInput from "@/Components/show/SearchInput"
+import AnimeSearchInput from "@/Components/Animes/show/AnimeSearchInput"
 import Link from "next/link"
 import FiltersToogleNav from "../../show/FiltersToogleNav"
 import AnimeFilters from "./AnimeFilters"
@@ -21,7 +21,7 @@ const AnimesHeader = () => {
             </Link>
 
             <div className="flex flex-col-reverse items-end sm:items-center sm:flex-row sm:gap-4">
-                <SearchInput />
+                <AnimeSearchInput />
                 <FiltersToogleNav>
                     <AnimeFilters />
                 </FiltersToogleNav>
