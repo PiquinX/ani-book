@@ -1,25 +1,26 @@
 import { useEffect, useId } from 'react'
-import { handleCloseModal } from '@/lib/serverUtils'
+import { useRouter } from 'next/navigation'
 
-export function usePopUp ({ newPath }: { newPath: string }) {
+export function usePopUp({ newPath }: { newPath: string }) {
   const popUpData = useId()
-
-  const handleClick = (event: MouseEvent) => {
-    const target = event.target as HTMLElement
-    
-    handleCloseModal({
-      isRedirectable: target.getAttribute('data-pop-up') === popUpData,
-      newPath
-    })
-  }
+  const router = useRouter()
 
   useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+
+      // I was using a function to handle the click event but the agent replaced it with this
+      if (target.getAttribute('data-pop-up') === popUpData) {
+        router.push(newPath)
+      }
+    }
+
     addEventListener('mousedown', handleClick)
 
     return () => {
       removeEventListener('mousedown', handleClick)
     }
-  }, [])
+  }, [newPath, popUpData, router])
 
   return ({ popUpData })
 }

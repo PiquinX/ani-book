@@ -9,7 +9,7 @@ export interface GeneralType {
 // Books
 export interface BookType extends GeneralType {
 }
-export interface BookResponseType extends Omit<BookType, 'id'>{
+export interface BookResponseType extends Omit<BookType, 'id'> {
     _id: string
 }
 
@@ -19,7 +19,7 @@ export type BookFormType = Omit<BookType, 'id' | 'createdAt'>
 // Series
 export interface SerieType extends GeneralType {
 }
-export interface SerieResponseType extends Omit<SerieType, 'id'>{
+export interface SerieResponseType extends Omit<SerieType, 'id'> {
     _id: string
 }
 
@@ -29,7 +29,7 @@ export type SerieFormType = Omit<SerieType, 'id' | 'createdAt'>
 // Movies
 export interface MovieType extends GeneralType {
 }
-export interface MovieResponseType extends Omit<SerieType, 'id'>{
+export interface MovieResponseType extends Omit<SerieType, 'id'> {
     _id: string
 }
 
@@ -39,7 +39,7 @@ export type MovieFormType = Omit<MovieType, 'id' | 'createdAt'>
 // Games
 export interface GameType extends GeneralType {
 }
-export interface GameResponseType extends Omit<GameType, 'id'>{
+export interface GameResponseType extends Omit<GameType, 'id'> {
     _id: string
 }
 
@@ -56,13 +56,13 @@ export interface AnimeType extends Omit<GeneralType, 'rate'> {
     isFinished: boolean
     averageRate: number
 }
-export interface AnimeResponseType extends Omit<AnimeType, 'id'>{
+export interface AnimeResponseType extends Omit<AnimeType, 'id'> {
     _id: string
 }
 
 export type AnimeUpdateType = Omit<AnimeType, 'createdAt'>
 export type AnimeFormType = Omit<AnimeType, 'id' | 'createdAt'>
-export interface AnimeToShowType extends Omit<AnimeType, 'rate'>{
+export interface AnimeToShowType extends Omit<AnimeType, 'rate'> {
     seasons: number
 }
 
@@ -101,7 +101,7 @@ export type State = {
     message?: string | null
 }
 
-export type AnimeState = {  
+export type AnimeState = {
     errors?: {
         title?: string[]
         poster?: string[]
@@ -111,11 +111,69 @@ export type AnimeState = {
         external?: string[]
     }
     message?: string | null
+    success?: boolean
 }
 
-export type AnimeListState = {  
+export type AnimeListState = {
     errors?: {
         list?: string[]
     }
     message?: string | null
+}
+
+// Context Types
+export interface SidebarContextType {
+    isOpen: boolean
+    setIsOpen: (isOpen: boolean) => void
+    toggle: () => void
+}
+
+export interface SideBarProps {
+    side: 'left' | 'right'
+    buttonContent: import('react').ReactNode
+    navClass?: string
+    children: import('react').ReactNode
+}
+
+// Component Props
+export interface SuccessModalProps {
+    show: boolean;
+    message: string;
+    onClose: () => void;
+}
+
+export interface MediaCardProps {
+    title: string
+    poster: string
+    rate: number
+    createdAt: string
+    href: string
+    extraInfo?: import('react').ReactNode
+}
+
+export interface AddCardProps {
+    link: string
+}
+
+export type AnimeWithoutRate = Omit<AnimeType, 'rate'>
+
+export interface AnimesListProps {
+    animes: AnimeWithoutRate[]
+}
+
+// Anime Search Hook Types for Jikan API formatted
+export interface AnimeSearchResult {
+    mal_id: number;
+    title: string;
+    title_english: string | null;
+    title_japanese: string | null;
+    year: number | null;
+    type: string | null;
+    images: {
+        jpg: {
+            image_url: string;
+            small_image_url: string;
+            large_image_url: string;
+        }
+    };
 }

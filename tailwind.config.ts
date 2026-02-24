@@ -16,6 +16,9 @@ const config: Config = {
       '2xl': { min: '1600px' }
     },
     extend: {
+      colors: {
+        'noir-blue': 'var(--noir-blue, #134ff5ff)',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

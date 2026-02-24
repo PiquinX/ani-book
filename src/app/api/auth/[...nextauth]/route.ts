@@ -2,7 +2,7 @@ import NextAuth from "next-auth/next"
 import GoogleProvider from "next-auth/providers/google"
 import { onLogin } from "@/lib/actions/userActions"
 
-const authOptions = {
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,

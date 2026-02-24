@@ -15,16 +15,16 @@ const AnimeIsFinishedFilter = () => {
 
         params.set(FILTERPARAMSOPTIONS.isFinished, newValue)
 
-        if(newValue == animeIsFinishedOptionsFilter.default) params.delete(FILTERPARAMSOPTIONS.isFinished)
+        if (newValue == animeIsFinishedOptionsFilter.default) params.delete(FILTERPARAMSOPTIONS.isFinished)
         else params.set(FILTERPARAMSOPTIONS.isFinished, newValue)
-        
+
         replace(`/animes?${params.toString()}`, {
             scroll: false
         })
     }
 
-    return(
-        <div className='flex flex-col gap-4 py-6 px-4 border-b sm:px-10'>
+    return (
+        <div className='flex flex-col gap-4 py-6 px-4 border-b'>
             <div>
                 <h4 className='pb-2 border-b-2 border-black w-max'>Is Finished</h4>
             </div>

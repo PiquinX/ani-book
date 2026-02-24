@@ -1,0 +1,23 @@
+
+> my-entertainment-list@0.0.1 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.5s
+  Running TypeScript ...
+Failed to compile.
+
+./src/Components/Animes/add/AddAnimeForm.tsx:50:20
+Type error: Cannot find name 'useId'.
+
+[0m [90m 48 |[39m   }
+ [90m 49 |[39m
+[31m[1m>[22m[39m[90m 50 |[39m   [36mconst[39m selectId [33m=[39m useId()
+ [90m    |[39m                    [31m[1m^[22m[39m
+ [90m 51 |[39m
+ [90m 52 |[39m   [36mreturn[39m (
+ [90m 53 |[39m     [33m<[39m[33mdiv[39m className[33m=[39m[32m'w-full sm:w-[80%] h-[90%] flex flex-col pb-4'[39m[33m>[39m[0m
+Next.js build worker exited with code: 1 and signal: null

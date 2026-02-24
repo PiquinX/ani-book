@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "project-structure": {
+      "source": "tartinerlabs/skills",
+      "sourceType": "github",
+      "computedHash": "f46415abbf328f54afd1bdd13d68a9db4f053cec41105e245c2dab278c12d041"
+    }
+  }
+}

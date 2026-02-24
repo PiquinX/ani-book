@@ -9,7 +9,7 @@ import { filterAnimes, sortAnimes } from '@/lib/utlis'
 
 const AnimesController = ({ animes }: { animes: AnimeToShowType[] | null }) => {
   const searchParams = useSearchParams()
-  
+
   const filters: AnimeFilters = {
     search: searchParams.get(FILTERPARAMSOPTIONS.search) || null,
     minSeasons: parseInt(searchParams.get(FILTERPARAMSOPTIONS.minSeasons) || '') || null,
@@ -21,15 +21,15 @@ const AnimesController = ({ animes }: { animes: AnimeToShowType[] | null }) => {
   if (animes) {
     const filteredAnimes: AnimeToShowType[] = filterAnimes(animes, filters)
 
-    if(filteredAnimes && filteredAnimes.length != 0){
-      const sortOption = searchParams.get(FILTERPARAMSOPTIONS.sort)
+    if (filteredAnimes && filteredAnimes.length != 0) {
+      const sortOption = searchParams.get(FILTERPARAMSOPTIONS.sort) || sortOptions.dateNewToOld
       const sortedAnimes = sortAnimes(filteredAnimes, sortOption)
       return (
         <>
           <AnimesList animes={sortedAnimes} />
         </>
       )
-    }else{
+    } else {
       return <div>Try with fewer filters.</div>
     }
 

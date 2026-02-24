@@ -5,10 +5,11 @@ import { BookResponseType, BookType, BooksListType, State } from '../definitions
 import { CreateBookFormSchema } from '../schemas'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { APIstring } from '../consts'
 
 export const getBooks = async (): Promise<BooksListType | false> => {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
@@ -30,7 +31,7 @@ export const getBooks = async (): Promise<BooksListType | false> => {
 }
 
 export const getBookByID = async ({ id }: { id: string }): Promise<BookType | false> => {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
@@ -53,8 +54,8 @@ export const getBookByID = async ({ id }: { id: string }): Promise<BookType | fa
   }
 }
 
-export const createBook = async (prevState: State, formData : FormData) => {
-  const session = await getServerSession()
+export const createBook = async (prevState: State, formData: FormData) => {
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   const rate = formData.get('book-rate')
@@ -70,7 +71,7 @@ export const createBook = async (prevState: State, formData : FormData) => {
       errors: {
         external: [],
         ...validatedFields.error.flatten().fieldErrors,
-      }, 
+      },
       message: 'Missing Fields. Failed to Create Book.'
     }
   }
@@ -119,8 +120,8 @@ export const createBook = async (prevState: State, formData : FormData) => {
   redirect('/books')
 }
 
-export const updateBook = async (id: string, prevState: State, formData : FormData) => {
-  const session = await getServerSession()
+export const updateBook = async (id: string, prevState: State, formData: FormData) => {
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   const rate = formData.get('book-rate')
@@ -136,7 +137,7 @@ export const updateBook = async (id: string, prevState: State, formData : FormDa
       errors: {
         external: [],
         ...validatedFields.error.flatten().fieldErrors,
-      }, 
+      },
       message: 'Missing Fields. Failed to Edit Book.'
     }
   }

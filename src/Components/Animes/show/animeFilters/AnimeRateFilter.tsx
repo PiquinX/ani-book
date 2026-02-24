@@ -13,9 +13,9 @@ const AnimeRateFilter = () => {
     const handleUpdateRate = (newValue: string) => {
         const params = new URLSearchParams(searchParams)
 
-        if(newValue === 'ANY') params.delete(FILTERPARAMSOPTIONS.rate)
+        if (newValue === 'ANY') params.delete(FILTERPARAMSOPTIONS.rate)
         else params.set(FILTERPARAMSOPTIONS.rate, newValue)
-        
+
         replace(`/animes?${params.toString()}`, {
             scroll: false
         })
@@ -24,8 +24,8 @@ const AnimeRateFilter = () => {
 
     options.unshift('ANY')
 
-    return(
-        <div className='flex flex-col gap-4 py-6 pl-4 border-b sm:pl-10'>
+    return (
+        <div className='flex flex-col gap-4 py-6 px-4 border-b'>
             <div>
                 <h4 className='pb-2 border-b-2 border-black w-max'>Rate</h4>
             </div>
@@ -33,8 +33,8 @@ const AnimeRateFilter = () => {
                 <ControlledRateSelect
                     id={id}
                     onOptionChange={handleUpdateRate}
-                    rateValue={rate} 
-                    name='anime-rate' 
+                    rateValue={rate}
+                    name='anime-rate'
                     options={options}
                 />
             </div>

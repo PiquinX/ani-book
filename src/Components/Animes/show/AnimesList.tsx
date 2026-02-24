@@ -1,35 +1,30 @@
 import { animeIsFinishedOptions } from '@/lib/consts'
-import { AnimeType } from '@/lib/definitions'
+import { AnimeType, AnimeWithoutRate, AnimesListProps } from '@/lib/definitions'
 import Link from 'next/link'
 import React from 'react'
 import AddCard from '@/Components/show/AddCard'
 import { Date } from '@/Components/show/Date'
 import { AnimesTier } from './AnimeTier'
+import { MediaCard } from '@/Components/show/MediaCard'
 
-type AnimeWithoutRate = Omit<AnimeType, 'rate'>
-
-interface Props {
-    animes: AnimeWithoutRate[]
-}
-
-export const AnimesList: React.FC<Props> = ({ animes }) => {
+export const AnimesList: React.FC<AnimesListProps> = ({ animes }) => {
     const searchParams = useSearchParams();
     const params = new URLSearchParams(searchParams);
 
-    const style = animes.length > 2 ? 'grid grid-cols-responsive' : 'flex flex-wrap justify-center flex-shrink md:justify-start'
+    const style = animes.length > 2 ? 'grid grid-cols-responsive' : 'flex flex-wrap justify-center shrink md:justify-start'
 
     return (
-            <div
-                className={`${style} gap-8`}
-                data-testid='animes-list'
-            >
-                {
-                    animes.map(anime => (
-                        <Anime anime={anime} key={anime.id} />
-                    ))
-                }
-                <AddCard link={`animes/add-anime?${params.toString()}`} />
-            </div>
+        <div
+            className={`${style} gap-8`}
+            data-testid='animes-list'
+        >
+            {
+                animes.map(anime => (
+                    <Anime anime={anime} key={anime.id} />
+                ))
+            }
+            <AddCard link={`animes/add-anime?${params.toString()}`} />
+        </div>
     )
 }
 
@@ -40,28 +35,14 @@ const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
     const params = new URLSearchParams(searchParams);
 
     return (
-        <Link
+        <MediaCard
             href={`animes/edit-anime/${anime.id}?${params.toString()}`}
-            scroll={false}
+            title={anime.title}
+            poster={anime.poster}
+            rate={anime.averageRate}
+            createdAt={anime.createdAt}
+            extraInfo={anime.isFinished ? animeIsFinishedOptions.finished : animeIsFinishedOptions.notFinished}
             key={anime.id}
-            className="justify-self-center rounded hover:scale-105 duration-150 animate-appear-fast border w-72 p-5 flex flex-col gap-5"
-        >
-            <h4 className='truncate h-8 font-bold'>{anime.title}</h4>
-            <img
-                className="w-full h-full rounded"
-                src={anime.poster}
-                alt={anime.title} />
-            <div className='flex font-bold justify-between'>
-                <p className='font-bold text-lg'>
-                    <AnimesTier averageRate={anime.averageRate} />
-                </p>
-                <div>
-                    {anime.isFinished ? animeIsFinishedOptions.finished : animeIsFinishedOptions.notFinished}
-                </div>
-            </div>
-            <div className='flex gap-11'>
-                Created at: <Date date={anime.createdAt} />
-            </div>
-        </Link>
+        />
     )
 }

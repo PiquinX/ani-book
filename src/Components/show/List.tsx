@@ -1,7 +1,7 @@
 import { GeneralType } from '@/lib/definitions'
 import Link from 'next/link'
 import AddCard from './AddCard'
-import { rateColor } from '@/lib/utlis'
+import { MediaCard } from '@/Components/show/MediaCard'
 
 interface Props {
     addLink: string
@@ -14,10 +14,10 @@ interface Props {
 const List: React.FC<Props> = ({ addLink, addText, list, listDataTestId, editLink }) => {
     return (
         <>
-            <div className='flex items-end mb-5'>
+            <div className='flex justify-between items-center mb-5'>
                 <Link
                     href={addLink}
-                    className="bg-blue-500 rounded px-3 py-2 font-medium text-white"
+                    className="bg-transparent hover:bg-noir-blue/20 border border-[#333333] rounded px-3 py-2 font-medium text-gray-500 hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_rgba(0,0,255,0.6)] transition-all"
                     scroll={false}
                 >
                     {addText}
@@ -29,26 +29,14 @@ const List: React.FC<Props> = ({ addLink, addText, list, listDataTestId, editLin
             >
                 {
                     list.map(item => (
-                        <Link
-                            href={`${editLink}/${item.id}`}
-                            scroll={false}
+                        <MediaCard
                             key={item.id}
-                            className="justify-self-center rounded hover:scale-105 duration-150 animate-appear-fast border w-72 p-5 flex flex-col gap-5"
-                        >
-                            <h4 className='truncate h-8 font-bold'>{item.title}</h4>
-                            <img
-                                className="w-full h-full rounded"
-                                src={item.poster}
-                                alt={item.title} />
-                            <p className='font-bold'>
-                                <span className={rateColor(item.rate)}>
-                                    {Math.round(item.rate * 10) / 10}
-                                </span>/100
-                            </p>
-                            <div className='flex'>
-                                Created at: {item.createdAt.split('T')[0]}
-                            </div>
-                        </Link>
+                            href={`${editLink}/${item.id}`}
+                            title={item.title}
+                            poster={item.poster}
+                            rate={item.rate}
+                            createdAt={item.createdAt}
+                        />
                     ))
                 }
                 <AddCard link={addLink} />

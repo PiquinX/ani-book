@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export const fetchCache = 'default-cache'
 
-export default function RootLayout ({
+export default function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
@@ -24,9 +24,9 @@ export default function RootLayout ({
         <script src="https://kit.fontawesome.com/e61d350a25.js" crossOrigin="anonymous" defer></script>
       </head>
       <Providers>
-        <body className={`${inter.className} main-scroll max-w-screen py-5 px-3 sm:px-5 flex flex-col gap-5`}>
+        <body className={`${inter.className} main-scroll max-w-screen py-5 px-3 sm:px-5 flex flex-col gap-5 bg-black text-white`}>
           <Header />
-          <main className='w-full min-h-[65vh]'>
+          <main className='w-full min-h-[65vh] text-gray-400'>
             {children}
           </main>
         </body>

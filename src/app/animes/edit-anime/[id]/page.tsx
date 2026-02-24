@@ -1,7 +1,7 @@
 import EditAnimeController from '@/Controllers/Animes/EditAnimeController'
 
-export default function Page ({ params }: { params: { id: string } }) {
-  const id = params.id
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
 
   return (
     <EditAnimeController id={id} />

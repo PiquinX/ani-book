@@ -1,0 +1,27 @@
+
+> my-entertainment-list@0.0.1 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.0s
+  Running TypeScript ...
+Failed to compile.
+
+./src/lib/schemas.ts:5:5
+Type error: No overload matches this call.
+  Overload 1 of 2, '(params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; } | undefined): ZodString', gave the following error.
+    Object literal may only specify known properties, and 'required_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; }'.
+  Overload 2 of 2, '(params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; } | undefined): $ZodType<...>', gave the following error.
+    Object literal may only specify known properties, and 'required_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; }'.
+
+[0m [90m 3 |[39m [36mexport[39m [36mconst[39m [33mCreateBookFormSchema[39m [33m=[39m z[33m.[39mobject({
+ [90m 4 |[39m   title[33m:[39m z[33m.[39mstring({
+[31m[1m>[22m[39m[90m 5 |[39m     required_error[33m:[39m [32m'Title is required'[39m[33m,[39m
+ [90m   |[39m     [31m[1m^[22m[39m
+ [90m 6 |[39m     invalid_type_error[33m:[39m [32m'Title must be a text'[39m
+ [90m 7 |[39m   })[33m,[39m
+ [90m 8 |[39m   poster[33m:[39m z[33m.[39mstring({[0m
+Next.js build worker exited with code: 1 and signal: null

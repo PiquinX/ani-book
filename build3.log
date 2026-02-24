@@ -1,0 +1,23 @@
+
+> my-entertainment-list@0.0.1 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.6s
+  Running TypeScript ...
+Failed to compile.
+
+./src/Components/Animes/add/AddAnimeForm.tsx:78:24
+Type error: Property 'id' is missing in type '{ defaultValue: number; describedBy: string; name: string; options: string[]; }' but required in type 'Props'.
+
+[0m [90m 76 |[39m                         name[33m=[39m[32m'anime-rate-value'[39m
+ [90m 77 |[39m                       [33m/[39m[33m>[39m
+[31m[1m>[22m[39m[90m 78 |[39m                       [33m<[39m[33mRateSelect[39m
+ [90m    |[39m                        [31m[1m^[22m[39m
+ [90m 79 |[39m                         defaultValue[33m=[39m{value[33m.[39mrate [33m||[39m [35m0[39m} 
+ [90m 80 |[39m                         describedBy[33m=[39m[32m'anime-rate-error'[39m 
+ [90m 81 |[39m                         name[33m=[39m[32m'anime-rate'[39m [0m
+Next.js build worker exited with code: 1 and signal: null

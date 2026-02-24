@@ -5,10 +5,11 @@ import { MovieResponseType, MovieType, MoviesListType, State } from '../definiti
 import { CreateMovieFormSchema } from '../schemas'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { APIstring } from '../consts'
 
 export const getMovies = async (): Promise<MoviesListType | false> => {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
@@ -31,7 +32,7 @@ export const getMovies = async (): Promise<MoviesListType | false> => {
 }
 
 export const getMovieByID = async ({ id }: { id: string }): Promise<MovieType | false> => {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
@@ -54,8 +55,8 @@ export const getMovieByID = async ({ id }: { id: string }): Promise<MovieType | 
   }
 }
 
-export const createMovie = async (prevState: State, formData : FormData) => {
-  const session = await getServerSession()
+export const createMovie = async (prevState: State, formData: FormData) => {
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   const validatedFields = CreateMovieFormSchema.safeParse({
@@ -70,7 +71,7 @@ export const createMovie = async (prevState: State, formData : FormData) => {
       errors: {
         external: [],
         ...validatedFields.error.flatten().fieldErrors,
-      }, 
+      },
       message: 'Missing Fields. Failed to Create Movie.'
     }
   }
@@ -119,8 +120,8 @@ export const createMovie = async (prevState: State, formData : FormData) => {
   redirect('/movies')
 }
 
-export const updateMovie = async (id: string, prevState: State, formData : FormData) => {
-  const session = await getServerSession()
+export const updateMovie = async (id: string, prevState: State, formData: FormData) => {
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   const validatedFields = CreateMovieFormSchema.safeParse({
@@ -137,13 +138,13 @@ export const updateMovie = async (id: string, prevState: State, formData : FormD
       errors: {
         external: [],
         ...validatedFields.error.flatten().fieldErrors,
-      }, 
+      },
       message: 'Missing Fields. Failed to Edit Movie.'
     }
   }
 
   try {
-    const response = await fetch(`https://my-entertainment-list-api.vercel.app/movies/${id}`, {
+    const response = await fetch(`${APIstring}/movies/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       },

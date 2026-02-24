@@ -6,13 +6,14 @@ import { redirect } from 'next/navigation'
 import { CreateAnimeFormSchema } from '../schemas'
 import { animeIsFinishedOptions, APIstring } from '../consts'
 import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
-export const getAnimes = async (): Promise< AnimeToShowType[] | null> => {
-  const session = await getServerSession()
+export const getAnimes = async (): Promise<AnimeToShowType[] | null> => {
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`https://my-entertainment-list-api.vercel.app/animes/${email}`)
+    const response = await fetch(`${APIstring}/animes/${email}`)
 
     const animes = await response.json()
 
@@ -33,7 +34,7 @@ export const getAnimes = async (): Promise< AnimeToShowType[] | null> => {
 }
 
 export const getAnimeByID = async ({ id }: { id: string }): Promise<AnimeType | false> => {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   try {
@@ -64,7 +65,7 @@ export const getAnimeByID = async ({ id }: { id: string }): Promise<AnimeType | 
 }
 
 export async function createAnime(searchParams: string, prevState: AnimeState, formData: FormData) {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   const rates = formData.getAll('anime-rate')
@@ -86,7 +87,7 @@ export async function createAnime(searchParams: string, prevState: AnimeState, f
       errors: {
         external: [],
         ...validatedFields.error.flatten().fieldErrors,
-      }, 
+      },
       message: 'Missing Fields. Failed to Create Anime.'
     }
   }
@@ -134,11 +135,11 @@ export async function createAnime(searchParams: string, prevState: AnimeState, f
   }
 
   revalidatePath('/animes')
-  redirect(`/animes?${searchParams.toString()}`)
+  return { success: true }
 }
 
 export const updateAnime = async (id: string, searchParams: string, prevState: AnimeState, formData: FormData) => {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
   const rates = formData.getAll('anime-rate')
@@ -158,7 +159,7 @@ export const updateAnime = async (id: string, searchParams: string, prevState: A
       errors: {
         external: [],
         ...validatedFields.error.flatten().fieldErrors,
-      },   
+      },
       message: 'Missing Fields. Failed to Edit Anime.'
     }
   }
@@ -169,7 +170,7 @@ export const updateAnime = async (id: string, searchParams: string, prevState: A
         'Content-Type': 'application/json'
       },
       method: 'PATCH',
-      body: JSON.stringify({ email, anime:validatedFields.data })
+      body: JSON.stringify({ email, anime: validatedFields.data })
     })
     const updatedAnime = await response.json()
 
@@ -206,19 +207,16 @@ export const updateAnime = async (id: string, searchParams: string, prevState: A
   console.log(searchParams)
   revalidatePath(`/animes/edit-anime/${id}`)
   revalidatePath('/animes')
-  redirect(`/animes?${searchParams.toString()}`)
+  return { success: true }
 }
 
-export async function addAnimeList (prevState: AnimeListState, formData: FormData) {
-  const session = await getServerSession()
+export async function saveBulkAnimes(newAnimesList: any[]) {
+  const session = await getServerSession(authOptions)
   const email = session?.user?.email
 
-  const list = (formData.get('anime-list') || '').toString().split('')
-  
-  list.unshift('[')
-  list.push(']')
-
-  const stringList = list.join('')
+  if (!email) {
+    return { success: false, errorMessage: 'Unauthorized' }
+  }
 
   try {
     const response = await fetch(`${APIstring}/animes/add-list/${email}`, {
@@ -226,30 +224,63 @@ export async function addAnimeList (prevState: AnimeListState, formData: FormDat
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: stringList
+      body: JSON.stringify(newAnimesList)
     })
     const newAnimes = await response.json()
 
-    console.log(newAnimes)
-
     if (newAnimes.errorMessage) {
-      return {
-        errors: {
-          list: [newAnimes.errorMessage]
-        },
-        message: newAnimes.errorMessage
-      }
+      return { success: false, errorMessage: newAnimes.errorMessage }
     }
   } catch (err) {
     console.log(err)
-    return {
-      errors: {
-        list: ['Unexpected Error, try again']
-      },
-      message: 'Unexpected Error, try again'
-    }
+    return { success: false, errorMessage: 'Unexpected Error, try again' }
   }
 
   revalidatePath('/animes')
-  redirect('/animes')
+  return { success: true }
 }
+
+// export async function addAnimeList(prevState: AnimeListState, formData: FormData) {
+//   const session = await getServerSession(authOptions)
+//   const email = session?.user?.email
+
+//   const list = (formData.get('anime-list') || '').toString().split('')
+
+//   list.unshift('[')
+//   list.push(']')
+
+//   const stringList = list.join('')
+
+//   try {
+//     const response = await fetch(`${APIstring}/animes/add-list/${email}`, {
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       method: 'POST',
+//       body: stringList
+//     })
+//     const newAnimes = await response.json()
+
+//     console.log(newAnimes)
+
+//     if (newAnimes.errorMessage) {
+//       return {
+//         errors: {
+//           list: [newAnimes.errorMessage]
+//         },
+//         message: newAnimes.errorMessage
+//       }
+//     }
+//   } catch (err) {
+//     console.log(err)
+//     return {
+//       errors: {
+//         list: ['Unexpected Error, try again']
+//       },
+//       message: 'Unexpected Error, try again'
+//     }
+//   }
+
+//   revalidatePath('/animes')
+//   redirect('/animes')
+// }

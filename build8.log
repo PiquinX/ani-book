@@ -1,0 +1,42 @@
+
+> my-entertainment-list@0.0.1 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.5s
+  Running TypeScript ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/13) ...
+  Generating static pages using 15 workers (3/13) 
+  Generating static pages using 15 workers (6/13) 
+  Generating static pages using 15 workers (9/13) 
+✓ Generating static pages using 15 workers (13/13) in 585.8ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /animes
+├ ƒ /animes/add-anime
+├ ƒ /animes/add-anime/list
+├ ƒ /animes/edit-anime/[id]
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /books
+├ ƒ /books/add-book
+├ ƒ /books/edit-book/[id]
+├ ƒ /movies
+├ ƒ /movies/add-movie
+├ ƒ /movies/edit-movie/[id]
+├ ƒ /series
+├ ƒ /series/add-serie
+└ ƒ /series/edit-serie/[id]
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

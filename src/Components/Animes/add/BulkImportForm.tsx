@@ -1,0 +1,120 @@
+'use client'
+
+import { useSession } from 'next-auth/react'
+import { useBulkImport } from '@/hooks/useBulkImport'
+import ReviewingList from './ReviewingList'
+
+interface Props {
+    onSuccess: () => void
+}
+
+export default function BulkTxtImportForm({ onSuccess }: Props) {
+    const { data: session } = useSession()
+    const {
+        file,
+        isProcessing,
+        progress,
+        total,
+        errorMSG,
+        isReviewing,
+        parsedTitles,
+        handleFileChange,
+        toggleTitleSelection,
+        toggleAllSelections,
+        updateParsedTitle,
+        parseFile,
+        startImport
+    } = useBulkImport(session?.user?.email, onSuccess)
+
+    return (
+        <div className='w-full sm:w-[80%] h-[90%] flex flex-col pb-4'>
+            <h3 className='text-center text-2xl font-semibold text-white mb-6'>Bulk Import <span className='hidden sm:inline'>from TXT</span></h3>
+
+            <div className='flex mb-2 px-4 xs:px-6 sm:px-10 bar h-full overflow-hidden flex-col gap-6 justify-center'>
+
+                <div className={`flex flex-col items-center justify-center w-full transition-all duration-300 ${isReviewing ? 'h-18' : 'h-48'} border-2 border-dashed border-gray-600 rounded-lg hover:border-blue-500 bg-[#000000]`}>
+                    <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                        <div className={`flex flex-col items-center justify-center ${isReviewing ? 'pt-2 pb-2' : 'pt-5 pb-6'}`}>
+                            <i className={`fa-solid fa-cloud-arrow-up ${isReviewing ? 'text-2xl mb-1' : 'text-4xl mb-3'} text-gray-400 transition-all`}></i>
+                            {!isReviewing ? (
+                                <>
+                                    <p className="mb-2 text-sm text-gray-400"><span className="font-semibold text-blue-500">Click to upload</span></p>
+                                    <p className="text-xs text-gray-500">TXT files only</p>
+                                </>
+                            ) : (
+                                <p className="text-xs text-gray-400"><span className="font-semibold text-blue-500">Upload a different file</span></p>
+                            )}
+                        </div>
+                        <input id="dropzone-file" type="file" className="hidden" accept=".txt" onChange={handleFileChange} disabled={isProcessing} />
+                    </label>
+                </div>
+
+                {file && (
+                    <div className='flex items-center justify-between p-3 border border-gray-700 rounded bg-[#111]'>
+                        <span className='text-sm text-gray-300 truncate'>{file.name}</span>
+                        <i className="fa-solid fa-file-lines text-blue-500"></i>
+                    </div>
+                )}
+
+                {errorMSG && (
+                    <div className='text-red-500 text-sm text-center p-2 rounded bg-red-500/10 border border-red-500/20'>
+                        {errorMSG}
+                    </div>
+                )}
+
+                {isReviewing && !isProcessing && parsedTitles.length > 0 && (
+                    <ReviewingList
+                        parsedTitles={parsedTitles}
+                        onToggleSelection={toggleTitleSelection}
+                        onToggleAll={toggleAllSelections}
+                        onUpdateTitle={updateParsedTitle}
+                    />
+                )}
+
+                {isProcessing && isReviewing && (
+                    <div className='flex flex-col gap-2 w-full mt-4'>
+                        <div className='flex justify-between text-xs text-gray-400'>
+                            <span>Processing...</span>
+                            <span>{Math.round((progress / total) * 100) || 0}% ({progress}/{total})</span>
+                        </div>
+                        <div className='w-full bg-gray-800 rounded-full h-2.5 overflow-hidden'>
+                            <div
+                                className='bg-noir-blue h-2.5 rounded-full transition-all duration-300 ease-out'
+                                style={{ width: `${(progress / total) * 100}%`, backgroundColor: '#4f46e5' }}
+                            ></div>
+                        </div>
+                        <p className='text-[10px] text-gray-500 text-center mt-1'>Fetching metadata & images...</p>
+                    </div>
+                )}
+            </div>
+
+            <div className='bg-transparent w-full px-10 mt-auto'>
+                {!isReviewing ? (
+                    <button
+                        type="button"
+                        onClick={parseFile}
+                        disabled={!file || isProcessing}
+                        className={`duration-200 cursor-pointer w-full py-2 border-2 font-medium rounded ${!file || isProcessing
+                            ? 'border-gray-600 text-gray-600 cursor-not-allowed'
+                            : 'hover:bg-noir-blue hover:text-white text-noir-blue border-noir-blue hover:shadow-[0_0_15px_rgba(30,58,138,0.6)] shadow-none transition-all'
+                            }`}
+                    >
+                        {isProcessing ? 'PARSING...' : 'PARSE TXT FILE'}
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={startImport}
+                        disabled={isProcessing || parsedTitles.filter(t => t.selected).length === 0}
+                        className={`duration-200 w-full py-2 border-2 font-medium rounded ${isProcessing || parsedTitles.filter(t => t.selected).length === 0
+                            ? 'border-gray-600 text-gray-600 cursor-not-allowed'
+                            : 'hover:bg-noir-blue cursor-pointer hover:text-white text-noir-blue border-noir-blue hover:shadow-[0_0_15px_rgba(30,58,138,0.6)] shadow-none transition-all'
+                            }`}
+                    >
+                        {isProcessing ? 'IMPORTING...' : 'CONFIRM & IMPORT'}
+                    </button>
+                )}
+            </div>
+        </div>
+    )
+}
