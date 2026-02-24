@@ -30,7 +30,7 @@ const TitleSelectionModal: React.FC<Props> = ({ show, anime, onClose, onSelect }
                         <button
                             type="button"
                             onClick={() => onSelect(englishTitle, poster)}
-                            className='w-full py-3 cursor-pointer px-4 bg-transparent hover:bg-noir-blue/20 border border-[#333333] hover:border-noir-blue hover:shadow-[0_0_25px_5px_rgba(0,0,255,0.6)] rounded-md transition-all text-left group'
+                            className='w-full py-3 cursor-pointer px-4 bg-transparent hover:bg-noir-blue/20 border border-[#333333] hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] rounded-md transition-all text-left group'
                         >
                             <span className='block text-xs text-gray-500 uppercase tracking-wider mb-1'>Primary / English / Romaji</span>
                             <span className='block text-lg font-medium text-gray-300 group-hover:text-white'>{englishTitle}</span>
@@ -39,7 +39,7 @@ const TitleSelectionModal: React.FC<Props> = ({ show, anime, onClose, onSelect }
                         <button
                             type="button"
                             onClick={() => onSelect(japaneseTitle, poster)}
-                            className='w-full py-3 cursor-pointer px-4 bg-transparent hover:bg-noir-blue/20 border border-[#333333] hover:border-noir-blue hover:shadow-[0_0_25px_5px_rgba(0,0,255,0.6)] rounded-md transition-all text-left group'
+                            className='w-full py-3 cursor-pointer px-4 bg-transparent hover:bg-noir-blue/20 border border-[#333333] hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] rounded-md transition-all text-left group'
                         >
                             <span className='block text-xs text-gray-500 uppercase tracking-wider mb-1'>Japanese (Kanji / Kana Only)</span>
                             <span className='block text-lg font-medium text-gray-300 group-hover:text-white'>{japaneseTitle}</span>

@@ -9,7 +9,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({ title, poster, rate, creat
         <Link
             href={href}
             scroll={false}
-            className="group justify-self-center hover:scale-105 animate-appear-fast w-72 p-5 flex flex-col gap-5 bg-[#000000] rounded-sm overflow-hidden border border-[#333333] hover:border-noir-blue hover:shadow-[0_0_25px_5px_rgba(0,0,255,0.6)] transition-all duration-300 relative text-white"
+            className="group hover:scale-105 animate-appear-fast w-full p-5 flex flex-col gap-5 bg-[#000000] rounded-sm overflow-hidden border border-[#333333] hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] transition-all duration-300 relative text-white"
         >
             <h4 className='truncate h-8 font-bold z-10'>{title}</h4>
             <img

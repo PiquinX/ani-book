@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { parseAnimeListText, fetchJikanAnime, sleep } from '@/lib/utils';
+import { parseAnimeListText, fetchJikanAnime, sleep, hasJapaneseCharacters } from '@/lib/utils';
 import { FETCH_DELAY_MS } from '@/lib/consts';
 import { saveBulkAnimes } from '@/lib/actions/animeActions';
 
@@ -10,7 +10,7 @@ export function useBulkImport(sessionEmail: string | null | undefined, onSuccess
     const [total, setTotal] = useState(0);
     const [errorMSG, setErrorMSG] = useState<string | null>(null);
     const [isReviewing, setIsReviewing] = useState(false);
-    const [parsedTitles, setParsedTitles] = useState<{ id: number; title: string; selected: boolean }[]>([]);
+    const [parsedTitles, setParsedTitles] = useState<{ id: number; title: string; selected: boolean; isNative: boolean }[]>([]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -61,7 +61,12 @@ export function useBulkImport(sessionEmail: string | null | undefined, onSuccess
                 return;
             }
 
-            setParsedTitles(validTitles.map((title, index) => ({ id: index, title, selected: true })));
+            setParsedTitles(validTitles.map((title, index) => ({
+                id: index,
+                title,
+                selected: true,
+                isNative: hasJapaneseCharacters(title)
+            })));
             setIsReviewing(true);
         } catch (err) {
             console.error(err);
@@ -75,7 +80,7 @@ export function useBulkImport(sessionEmail: string | null | undefined, onSuccess
         setIsProcessing(true);
         setErrorMSG(null);
 
-        const selectedTitles = parsedTitles.filter(t => t.selected).map(t => t.title);
+        const selectedTitles = parsedTitles.filter(t => t.selected);
         setTotal(selectedTitles.length);
         setProgress(0);
 
@@ -89,13 +94,18 @@ export function useBulkImport(sessionEmail: string | null | undefined, onSuccess
             const newAnimesList: any[] = [];
 
             for (let i = 0; i < selectedTitles.length; i++) {
-                const title = selectedTitles[i];
+                const { title, isNative } = selectedTitles[i];
 
                 try {
                     const results = await fetchJikanAnime(title, 1);
                     if (results && results.length > 0) {
                         const anime = results[0];
-                        const chosenTitle = anime.title_english || anime.title;
+                        let chosenTitle = anime.title_english || anime.title;
+
+                        if (isNative) {
+                            chosenTitle = anime.title_japanese || title;
+                        }
+
                         const poster = anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url;
 
                         newAnimesList.push({

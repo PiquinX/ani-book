@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react'
 import { useSelect } from '@/hooks/useSelect'
-import { getRate, getTier } from '@/lib/utlis'
+import { getRate, getTier } from '@/lib/utils'
 
 interface Props {
   id: string
@@ -20,7 +20,7 @@ export function RateSelect(
   const [inputValue, setInputValue] = useState(defaultValue)
 
   // We apply styles depending on the isShowing state.
-  const selectClass = isShowing ? 'pointer-events-auto top-full opacity-100' : 'pointer-events-none top-1/2 opacity-0'
+  const selectClass = isShowing ? 'pointer-events-auto top-full mb-[2px] opacity-100' : 'pointer-events-none top-1/2 opacity-0'
   const buttonClass = isShowing ? 'border-noir-blue text-white before:border-white before:rotate-[-135deg] before:top-[.78rem] bg-transparent' : 'border-[#333333] text-gray-500 before:border-gray-500 font-bold before:rotate-45 before:top-[.45rem] sm:before:top-[.55rem]'
 
   // It changes the state of isShowing.
@@ -52,7 +52,7 @@ export function RateSelect(
       </div>
       <input className='hidden' aria-describedby={describedBy} value={inputValue} name={name} />
 
-      <div className={`${selectClass} ${width} min-w-max duration-75 absolute bg-[#000000] text-gray-300 font-bold border border-noir-blue shadow-[0_0_25px_5px_var(--noir-blue,rgba(0,0,255,0.6))] z-50 rounded `}>
+      <div className={`${selectClass} ${width} z-[100] min-w-max duration-75 absolute bg-[#000000] text-gray-300 font-bold border border-noir-blue shadow-[0_0_25px_5px_var(--noir-blue)] rounded `}>
         {
           options.map((option, index) => (
             <div

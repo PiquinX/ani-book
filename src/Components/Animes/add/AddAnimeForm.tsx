@@ -59,10 +59,10 @@ export default function AddAnimeForm({ searchParams, onSuccess }: { searchParams
   const selectId = useId()
 
   return (
-    <div className='w-full sm:w-[80%] h-[90%] flex flex-col pb-4'>
+    <div className='w-full sm:w-[80%] flex flex-col pb-4'>
       <h3 className='text-center text-2xl font-semibold text-white'>Add a new anime to the list.</h3>
-      <form className='flex h-full overflow-hidden flex-col gap-5' action={dispatch}>
-        <div className='flex px-4 xs:px-6 sm:px-10 py-5 bar h-full overflow-hidden overflow-y-scroll flex-col gap-5'>
+      <form className='flex flex-col gap-5' action={dispatch}>
+        <div className='flex px-4 xs:px-6 sm:px-10 py-5 bar flex-col gap-5'>
           <AnimeSearchInput
             describedBy='anime-title-error'
             onSelectTitle={(title, poster) => {
@@ -79,6 +79,13 @@ export default function AddAnimeForm({ searchParams, onSuccess }: { searchParams
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPosterUrl(e.target.value)}
           />
           <FormErrorMessage id='anime-poster-error' errors={state?.errors?.poster} />
+          {
+            posterUrl && (
+              <div className='flex justify-center w-full my-1'>
+                <img src={posterUrl} alt="Poster previsualization" className="h-[200px] w-[140px] sm:h-[240px] sm:w-[160px] object-cover rounded-md shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-[#333333]" />
+              </div>
+            )
+          }
 
           <div className='flex flex-col gap-6'>
             <div className='flex flex-col items-center lg:grid lg:grid-cols-rates gap-5'>

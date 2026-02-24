@@ -60,9 +60,9 @@ export default function EditAnimeForm({ id, title, poster, rate, description, is
   const selectId = useId()
 
   return (
-    <div className='w-full sm:w-[80%] h-[90%] flex flex-col sm:pb-4'>
+    <div className='w-full sm:w-[80%] flex flex-col -4'>
       <form className='flex overflow-hidden flex-col gap-5' action={dispatch}>
-        <div className='flex px-4 xs:px-6 sm:px-10 py-5 bar h-full overflow-hidden overflow-y-scroll flex-col gap-5'>
+        <div className='flex px-4 xs:px-6 sm:px-10 py-5 bar flex-col gap-5'>
           <AnimeSearchInput
             describedBy='anime-title-error'
             border={false}
@@ -97,7 +97,7 @@ export default function EditAnimeForm({ id, title, poster, rate, description, is
                     />
                     <RateSelect
                       id={selectId}
-                      defaultValue={value.rate || 0}
+                      defaultValue={value.rate || 1}
                       describedBy='anime-rate-error'
                       name='anime-rate'
                       options={Object.values(animeRateOptions)}

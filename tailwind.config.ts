@@ -17,7 +17,7 @@ const config: Config = {
     },
     extend: {
       colors: {
-        'noir-blue': 'var(--noir-blue, #134ff5ff)',
+        'noir-blue': 'var(--noir-blue, #1111FF)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -25,7 +25,7 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
       },
       gridTemplateColumns: {
-        responsive: 'repeat(auto-fit, minmax(250px, 1fr))',
+        responsive: 'repeat(auto-fill, minmax(250px, 1fr))',
         rates: 'repeat(2, 1fr)'
       },
       gridTemplateRows: {

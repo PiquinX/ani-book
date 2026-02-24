@@ -14,13 +14,13 @@ const AnimesHeader = () => {
         <div className='flex justify-between items-center text-sm sm:text-base mb-5'>
             <Link
                 href={`animes/add-anime?${params.toString()}`}
-                className="bg-transparent hover:bg-noir-blue/20 border border-[#333333] rounded px-3 py-2 font-medium text-gray-500 hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_rgba(0,0,255,0.6)] transition-all"
+                className="bg-transparent hover:bg-noir-blue/20 border border-[#333333] rounded px-3 py-2 font-medium text-gray-500 hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] transition-all"
                 scroll={false}
             >
                 + Add Anime
             </Link>
 
-            <div className="flex flex-col-reverse items-end sm:items-center sm:flex-row sm:gap-4">
+            <div className="flex justify-end">
                 <AnimeSearchInput />
                 <FiltersToogleNav>
                     <AnimeFilters />

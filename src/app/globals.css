@@ -2,7 +2,7 @@
 @config "../../tailwind.config.ts";
 
 :root {
-    --noir-blue: #134ff5ff;
+    --noir-blue: #1111FF;
 }
 
 .text-area {

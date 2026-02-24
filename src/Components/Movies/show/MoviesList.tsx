@@ -7,9 +7,11 @@ interface Props {
 }
 
 export const MoviesList: React.FC<Props> = ({ movies }) => {
+    const style = movies.length > 3 ? 'grid grid-cols-responsive' : 'flex flex-wrap justify-center shrink md:justify-start'
+
     return (
         <div
-            className="grid grid-cols-responsive gap-8"
+            className={`${style} gap-8`}
             data-testid='movies-list'
         >
             {

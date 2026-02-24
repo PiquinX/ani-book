@@ -1,21 +1,16 @@
 import { animeIsFinishedOptions } from '@/lib/consts'
-import { AnimeType, AnimeWithoutRate, AnimesListProps } from '@/lib/definitions'
-import Link from 'next/link'
+import { AnimeWithoutRate, AnimesListProps } from '@/lib/definitions'
 import React from 'react'
 import AddCard from '@/Components/show/AddCard'
-import { Date } from '@/Components/show/Date'
-import { AnimesTier } from './AnimeTier'
 import { MediaCard } from '@/Components/show/MediaCard'
 
 export const AnimesList: React.FC<AnimesListProps> = ({ animes }) => {
     const searchParams = useSearchParams();
     const params = new URLSearchParams(searchParams);
 
-    const style = animes.length > 2 ? 'grid grid-cols-responsive' : 'flex flex-wrap justify-center shrink md:justify-start'
-
     return (
         <div
-            className={`${style} gap-8`}
+            className="grid grid-cols-responsive gap-8"
             data-testid='animes-list'
         >
             {

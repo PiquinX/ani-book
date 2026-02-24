@@ -1,11 +1,11 @@
 'use client'
 
 import { AnimesList } from '@/Components/Animes/show/AnimesList'
-import AnimesHeader from '@/Components/Animes/show/AnimesHeader'
 import { AnimeFilters, AnimeToShowType } from '@/lib/definitions'
 import { useSearchParams } from 'next/navigation'
 import { animeIsFinishedOptionsFilter, FILTERPARAMSOPTIONS, sortOptions } from '@/lib/consts'
-import { filterAnimes, sortAnimes } from '@/lib/utlis'
+import { filterAnimes, sortAnimes } from '@/lib/utils'
+import AddCard from '@/Components/show/AddCard'
 
 const AnimesController = ({ animes }: { animes: AnimeToShowType[] | null }) => {
   const searchParams = useSearchParams()
@@ -19,6 +19,15 @@ const AnimesController = ({ animes }: { animes: AnimeToShowType[] | null }) => {
   }
 
   if (animes) {
+    if (animes.length === 0) {
+      const params = new URLSearchParams(searchParams);
+      return (
+        <div className="flex flex-wrap justify-center shrink justify-start mt-10">
+          <AddCard link={`animes/add-anime?${params.toString()}`} />
+        </div>
+      )
+    }
+
     const filteredAnimes: AnimeToShowType[] = filterAnimes(animes, filters)
 
     if (filteredAnimes && filteredAnimes.length != 0) {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface ReviewingListProps {
-    parsedTitles: { id: number; title: string; selected: boolean }[];
+    parsedTitles: { id: number; title: string; selected: boolean; isNative: boolean }[];
     onToggleSelection: (id: number) => void;
     onToggleAll: () => void;
     onUpdateTitle: (id: number, newTitle: string) => void;
@@ -72,9 +72,16 @@ const ReviewingList: React.FC<ReviewingListProps> = ({ parsedTitles, onToggleSel
                                     className='bg-transparent border-b border-noir-blue text-sm text-gray-200 focus:outline-none w-full'
                                 />
                             ) : (
-                                <span className={`text-sm truncate transition-colors ${item.selected ? 'text-gray-400 group-hover:text-gray-200' : 'text-gray-600 line-through'}`}>
-                                    {item.title}
-                                </span>
+                                <div className='flex items-center gap-2 min-w-0'>
+                                    {item.isNative && (
+                                        <span className='px-1.5 py-0.5 text-[10px] bg-red-900/40 text-red-400 border border-red-800 rounded font-semibold whitespace-nowrap'>
+                                            JP
+                                        </span>
+                                    )}
+                                    <span className={`text-sm truncate transition-colors ${item.selected ? 'text-gray-400 group-hover:text-gray-200' : 'text-gray-600 line-through'} cursor-pointer`}>
+                                        {item.title}
+                                    </span>
+                                </div>
                             )}
                         </div>
                         {editingId !== item.id && (

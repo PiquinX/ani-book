@@ -17,7 +17,7 @@ export default function SubmitButton({ children }: SubmitButtonProps) {
             className={`flex items-center justify-center gap-2 bg-transparent border border-[#333333] rounded px-3 py-2 font-medium transition-all w-full
                 ${pending
                     ? 'text-gray-400 bg-[#333333] cursor-not-allowed'
-                    : 'text-gray-500 cursor-pointer hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_rgba(0,0,255,0.6)] hover:bg-noir-blue/20'
+                    : 'text-gray-500 cursor-pointer hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] hover:bg-noir-blue/20'
                 }`}
         >
             {pending ? (

@@ -6,10 +6,14 @@ interface Props {
     books: BooksListType
 }
 
+
+
 export const BooksList: React.FC<Props> = ({ books }) => {
+    const style = books.length > 3 ? 'grid grid-cols-responsive' : 'flex flex-wrap justify-center shrink md:justify-start'
+
     return (
         <div
-            className="grid grid-cols-responsive gap-8"
+            className={`${style} gap-8`}
             data-testid='books-list'
         >
             {
