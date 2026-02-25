@@ -5,13 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import LogoutModal from './LogoutModal'
-
-const links = [
-  { name: 'Movies', href: '/movies' },
-  { name: 'Series', href: '/series' },
-  { name: 'Books', href: '/books' },
-  { name: 'Animes', href: '/animes' }
-]
+import { navigationLinks } from '@/lib/consts'
 
 export const Header = () => {
   const pathName = usePathname()
@@ -21,7 +15,7 @@ export const Header = () => {
     <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-xl border-b border-gray-800 flex w-full justify-between xs:gap-1 text-xs sm:gap-4 sm:text-base">
       <div className='flex xs:gap-1 sm:gap-4 w-max'>
         {
-          links.map((link, index) => (
+          navigationLinks.map((link, index) => (
             <Link
               href={link.href}
               key={index}

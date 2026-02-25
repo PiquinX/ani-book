@@ -177,3 +177,15 @@ export interface AnimeSearchResult {
         }
     };
 }
+
+// Book Search Hook Types for Google Books API formatted
+export interface BookSearchResult {
+    id: string;
+    title: string;
+    author: string | null;
+    description: string;
+    publishedDate: string | null;
+    images: {
+        image_url: string;
+    };
+}

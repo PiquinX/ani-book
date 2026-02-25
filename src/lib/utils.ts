@@ -67,6 +67,58 @@ export const fetchJikanAnime = async (query: string, limit: number = 1): Promise
     }
 };
 
+export const fetchMediaData = async (query: string, limit: number = 5, type: 'anime' | 'book'): Promise<any[]> => {
+    if (type === 'anime') {
+        return fetchJikanAnime(query, limit);
+    } else if (type === 'book') {
+        try {
+            const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(query)}&maxResults=${limit}&langRestrict=en`);
+            if (!res.ok) {
+                return [];
+            }
+            const data = await res.json();
+
+            // Format the output specifically for books
+            const formattedResults = (data.items || []).map((item: any) => {
+                const volumeInfo = item.volumeInfo || {};
+
+                // Get highest resolution image link
+                const imageLinks = volumeInfo.imageLinks || {};
+                let imageUrl = '';
+                if (imageLinks.extraLarge) imageUrl = imageLinks.extraLarge;
+                else if (imageLinks.large) imageUrl = imageLinks.large;
+                else if (imageLinks.medium) imageUrl = imageLinks.medium;
+                else if (imageLinks.small) imageUrl = imageLinks.small;
+                else if (imageLinks.thumbnail) imageUrl = imageLinks.thumbnail;
+                else if (imageLinks.smallThumbnail) imageUrl = imageLinks.smallThumbnail;
+
+                // Assure HTTPS
+                imageUrl = imageUrl.replace(/^http:\/\//i, 'https://');
+
+                // Enhance quality if it's a thumbnail by increasing zoom and removing the curled edge
+                imageUrl = imageUrl.replace('&zoom=1', '&zoom=3').replace('&edge=curl', '');
+
+                return {
+                    id: item.id,
+                    title: volumeInfo.title || '',
+                    author: volumeInfo.authors ? volumeInfo.authors[0] : null,
+                    description: volumeInfo.description || '',
+                    publishedDate: volumeInfo.publishedDate || null,
+                    images: {
+                        image_url: imageUrl
+                    }
+                };
+            });
+
+            return formattedResults;
+        } catch (error) {
+            console.error('Failed to fetch books:', error);
+            return [];
+        }
+    }
+    return [];
+};
+
 import { animeIsFinishedOptions, animeIsFinishedOptionsFilter, sortOptions } from "./consts"
 import { AnimeFilters, AnimeToShowType } from "./definitions"
 
@@ -97,11 +149,11 @@ export const getRateTier = (rate: number, type?: string): string => {
 }
 
 export const getRateColor = (rate: number): string => {
-    if (rate === 100) return 'red-100 text-[#ff1a1a]'
-    if (rate >= 95) return 'red-95 text-[#b91919]'
-    if (rate >= 90) return 'text-[#7fed09]'
-    if (rate >= 85) return 'text-[#ff6913]'
-    if (rate >= 80) return 'text-[#f1ee2a]'
+    if (rate >= 95) return 'red-100 text-[#ff1a1a]'
+    if (rate >= 90) return 'red-95 text-[#b91919]'
+    if (rate >= 85) return 'text-[#7fed09]'
+    if (rate >= 80) return 'text-[#ff6913]'
+    if (rate >= 75) return 'text-[#f1ee2a]'
     if (rate >= 65) return 'text-[#2ffeb2]'
     if (rate >= 55) return 'text-[#8c2dff]'
     if (rate >= 45) return 'text-[#000000]'

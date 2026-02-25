@@ -3,6 +3,13 @@ export const animeIsFinishedOptions = {
   notFinished: 'To be animated'
 }
 
+export const navigationLinks = [
+  // { name: 'Movies', href: '/movies' },
+  // { name: 'Series', href: '/series' },
+  { name: 'Books', href: '/books' },
+  { name: 'Animes', href: '/animes' }
+]
+
 export const APIstring = process.env.APISTRING
 
 const rateOptions = {

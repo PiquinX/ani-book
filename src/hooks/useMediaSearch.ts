@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 
-import { AnimeSearchResult } from '@/lib/definitions'
-import { fetchJikanAnime } from '@/lib/utils'
+import { AnimeSearchResult, BookSearchResult } from '@/lib/definitions'
+import { fetchMediaData } from '@/lib/utils'
 
-
-export function useAnimeSearch(defaultValue: string) {
+export function useMediaSearch(defaultValue: string, type: 'anime' | 'book') {
     const [query, setQuery] = useState(defaultValue)
     const [debouncedQuery, setDebouncedQuery] = useState(defaultValue)
-    const [results, setResults] = useState<AnimeSearchResult[]>([])
+    const [results, setResults] = useState<(AnimeSearchResult | BookSearchResult)[]>([])
     const [loading, setLoading] = useState(false)
     const [showDropdown, setShowDropdown] = useState(false)
 
@@ -24,7 +23,7 @@ export function useAnimeSearch(defaultValue: string) {
 
     // Fetch logic
     useEffect(() => {
-        const fetchAnime = async () => {
+        const fetchMedia = async () => {
             if (!debouncedQuery || debouncedQuery.length < 3) {
                 setResults([])
                 return
@@ -32,11 +31,11 @@ export function useAnimeSearch(defaultValue: string) {
 
             setLoading(true)
             try {
-                const results = await fetchJikanAnime(debouncedQuery, 5)
+                const results = await fetchMediaData(debouncedQuery, 5, type)
                 setResults(results)
                 setShowDropdown(true)
             } catch (error) {
-                console.error('Failed to fetch anime:', error)
+                console.error(`Failed to fetch ${type}:`, error)
             } finally {
                 setLoading(false)
             }
@@ -44,9 +43,9 @@ export function useAnimeSearch(defaultValue: string) {
 
         // Only fetch if query has changed from defaultValue or is actively being typed
         if (debouncedQuery !== defaultValue) {
-            fetchAnime()
+            fetchMedia()
         }
-    }, [debouncedQuery, defaultValue])
+    }, [debouncedQuery, defaultValue, type])
 
     return {
         query,

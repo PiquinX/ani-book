@@ -40,13 +40,13 @@ export default function Page() {
         <div className='flex items-end justify-between w-full px-6 border-b border-gray-800 mb-4 text-xs sm:text-base'>
           <div className='flex xs:gap-1 sm:gap-4 w-max -mb-[1px]'>
             <button
-              className={`${activeTab === 'single' ? 'border-white text-white' : 'hover:border-white hover:text-white text-gray-400 border-transparent opacity-50'} cursor-pointer px-2 xs:px-3 py-2 rounded-t-md font-semibold duration-200 border-b-2 transition-colors`}
+              className={`${activeTab === 'single' ? 'border-white text-white' : 'hover:border-white hover:text-white text-gray-400 border-transparent opacity-50'} animate-appear-fast cursor-pointer px-2 xs:px-3 py-2 rounded-t-md font-semibold duration-200 border-b-2 transition-colors`}
               onClick={() => setActiveTab('single')}
             >
               Single Add
             </button>
             <button
-              className={`${activeTab === 'bulk' ? 'border-white text-white' : 'hover:border-white hover:text-white text-gray-400 border-transparent opacity-50'} cursor-pointer px-2 xs:px-3 py-2 rounded-t-md font-semibold duration-200 border-b-2 transition-colors`}
+              className={`${activeTab === 'bulk' ? 'border-white text-white' : 'hover:border-white hover:text-white text-gray-400 border-transparent opacity-50'} animate-appear-fast cursor-pointer px-2 xs:px-3 py-2 rounded-t-md font-semibold duration-200 border-b-2 transition-colors`}
               onClick={() => setActiveTab('bulk')}
             >
               Bulk Import
@@ -55,7 +55,7 @@ export default function Page() {
           <Link
             href={`/animes?${params.toString()}`}
             scroll={false}
-            className='text-3xl text-gray-500 mb-1'
+            className='text-3xl text-gray-500 animate-appear-fast mb-1'
           >
             <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
           </Link>

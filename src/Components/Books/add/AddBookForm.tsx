@@ -3,6 +3,7 @@ import Input from '@/Components/forms/Input'
 import { useFormState } from 'react-dom'
 import FormErrorMessage from '@/Components/forms/FormErrorMessage'
 import TextArea from '@/Components/forms/TextArea'
+import BookTitleSelectionInput from '@/Components/Books/BookTitleSelectionInput'
 
 import { bookRateOptions } from '@/lib/consts'
 import { RateSelect } from '@/Components/Animes/edit/RateSelect'
@@ -23,6 +24,7 @@ export default function AddBookForm({ onSuccess }: { onSuccess?: () => void }) {
   const [state, dispatch] = useFormState(createBook, initialState)
   const selectId = useId()
   const [posterUrl, setPosterUrl] = useState('')
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
     if ((state as any)?.success && onSuccess) {
@@ -32,13 +34,15 @@ export default function AddBookForm({ onSuccess }: { onSuccess?: () => void }) {
 
   return (
     <div className='w-full sm:w-[80%] flex flex-col py-10'>
-      <h3 className='text-center text-2xl font-semibold text-noir-blue'>Add a new Book to the list.</h3>
-      <form className='flex flex-col gap-5' action={dispatch}>
+      <h3 className='text-center text-2xl font-semibold text-noir-blue animate-appear-fast'>Add a new Book to the list.</h3>
+      <form className='flex flex-col gap-5 animate-appear-fast' action={dispatch}>
         <div className='flex px-10 py-5 bar flex-col gap-5'>
-          <Input
-            name='book-title'
-            placeholder='Title'
+          <BookTitleSelectionInput
             describedBy='book-title-error'
+            onSelectTitle={(title, poster, author, desc) => {
+              setPosterUrl(poster)
+              setDescription(author ? `By ${author}` : '')
+            }}
           />
           <FormErrorMessage id='book-title-error' errors={state?.errors?.title} />
 
@@ -72,9 +76,11 @@ export default function AddBookForm({ onSuccess }: { onSuccess?: () => void }) {
           <FormErrorMessage id='book-rate-error' errors={state?.errors?.rate} />
 
           <TextArea
+            key={description}
             name='book-description'
             placeholder='Description'
             describedBy='book-description-error'
+            defaultValue={description}
           />
           <FormErrorMessage id='book-description-error' errors={state?.errors?.rate} />
 

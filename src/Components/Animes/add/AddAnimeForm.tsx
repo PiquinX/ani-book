@@ -60,8 +60,8 @@ export default function AddAnimeForm({ searchParams, onSuccess }: { searchParams
 
   return (
     <div className='w-full sm:w-[80%] flex flex-col pb-4'>
-      <h3 className='text-center text-2xl font-semibold text-white'>Add a new anime to the list.</h3>
-      <form className='flex flex-col gap-5' action={dispatch}>
+      <h3 className='text-center text-2xl font-semibold text-white animate-appear-fast'>Add a new anime to the list.</h3>
+      <form className='flex flex-col gap-5 animate-appear-fast' action={dispatch}>
         <div className='flex px-4 xs:px-6 sm:px-10 py-5 bar flex-col gap-5'>
           <AnimeSearchInput
             describedBy='anime-title-error'

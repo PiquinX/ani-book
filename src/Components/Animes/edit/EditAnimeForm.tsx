@@ -66,7 +66,7 @@ export default function EditAnimeForm({ id, title, poster, rate, description, is
           <AnimeSearchInput
             describedBy='anime-title-error'
             border={false}
-            style='text-lg sm:text-2xl md:text-4xl text-blue-600'
+            style='text-lg animate-appear-fast sm:text-2xl md:text-4xl text-blue-600'
             defaultValue={title}
             onSelectTitle={(title, poster) => {
               setPosterUrl(poster)
@@ -74,7 +74,7 @@ export default function EditAnimeForm({ id, title, poster, rate, description, is
           />
           <FormErrorMessage id='anime-title-error' errors={state?.errors?.title} />
 
-          <div className='flex gap-2 flex-col'>
+          <div className='flex gap-2 flex-col animate-appear-fast '>
             <Input
               name='anime-poster'
               placeholder='Image URL'
@@ -86,7 +86,7 @@ export default function EditAnimeForm({ id, title, poster, rate, description, is
             <FormErrorMessage id='anime-poster-error' errors={state?.errors?.poster} />
           </div>
 
-          <div className='flex flex-col gap-6'>
+          <div className='flex flex-col gap-6 animate-appear-fast'>
             <div className='flex flex-col items-center lg:grid lg:grid-cols-rates gap-5'>
               {
                 currentRate.map((value, index) => (
@@ -129,7 +129,7 @@ export default function EditAnimeForm({ id, title, poster, rate, description, is
             <FormErrorMessage id='anime-rate-error' errors={state?.errors?.rate} />
           </div>
 
-          <div className='flex flex-col items-center'>
+          <div className='flex flex-col items-center animate-appear-fast'>
             <Select
               options={Object.values(animeIsFinishedOptions)}
               defaultValue={isFinished ? animeIsFinishedOptions.finished : animeIsFinishedOptions.notFinished}
@@ -139,7 +139,7 @@ export default function EditAnimeForm({ id, title, poster, rate, description, is
             <FormErrorMessage id='anime-isfinished-error' errors={state?.errors?.isFinished} />
           </div>
 
-          <div className='w-full h-max'>
+          <div className='w-full h-max animate-appear-fast'>
             <TextArea
               name='anime-description'
               placeholder='Description'
@@ -152,7 +152,7 @@ export default function EditAnimeForm({ id, title, poster, rate, description, is
           <FormErrorMessage id='anime-external-error' errors={state?.errors?.external} />
         </div>
 
-        <div className='bg-[#000000] w-full px-10 pt-4 pb-8'>
+        <div className='bg-[#000000] w-full px-10 pt-4 pb-8 animate-appear-fast'>
           <SubmitButton>
             UPDATE ANIME
           </SubmitButton>
