@@ -3,9 +3,27 @@
 import { usePopUp } from '@/hooks/usePopUp'
 import AddSerieForm from '@/Components/Series/add/AddSerieForm'
 import Link from 'next/link'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import SuccessModal from '@/Components/SuccessModal'
 
 export default function Page() {
   const { popUpData } = usePopUp({ newPath: '/series' })
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const router = useRouter()
+
+  if (showSuccessModal) {
+    return (
+      <SuccessModal
+        show={showSuccessModal}
+        message='Serie Successfully Added!'
+        onClose={() => {
+          router.refresh();
+          router.push('/series');
+        }}
+      />
+    );
+  }
 
   return (
     <div
@@ -22,7 +40,7 @@ export default function Page() {
         >
           <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
         </Link>
-        <AddSerieForm />
+        <AddSerieForm onSuccess={() => setShowSuccessModal(true)} />
       </div>
     </div>
   )

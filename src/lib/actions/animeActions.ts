@@ -13,7 +13,9 @@ export const getAnimes = async (): Promise<AnimeToShowType[] | null> => {
   const email = session?.user?.email
 
   try {
-    const response = await fetch(`${APIstring}/animes/${email}`)
+    const response = await fetch(`${APIstring}/animes/${email}`, {
+      next: { tags: ['animes'] }
+    })
 
     const animes = await response.json()
 
@@ -134,7 +136,7 @@ export async function createAnime(searchParams: string, prevState: AnimeState, f
     }
   }
 
-  revalidatePath('/animes')
+  revalidatePath('/animes', 'layout')
   return { success: true }
 }
 
@@ -236,7 +238,7 @@ export async function saveBulkAnimes(newAnimesList: any[]) {
     return { success: false, errorMessage: 'Unexpected Error, try again' }
   }
 
-  revalidatePath('/animes')
+  revalidatePath('/animes', 'layout')
   return { success: true }
 }
 

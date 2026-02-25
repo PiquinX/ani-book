@@ -4,11 +4,12 @@ import { useFormState } from 'react-dom'
 import FormErrorMessage from '@/Components/forms/FormErrorMessage'
 import TextArea from '@/Components/forms/TextArea'
 
-import { animeRateOptions } from '@/lib/consts'
+import { bookRateOptions } from '@/lib/consts'
 import { RateSelect } from '@/Components/Animes/edit/RateSelect'
-import { useId, useState } from 'react'
+import { useId, useState, useEffect } from 'react'
+import SubmitButton from '@/Components/forms/SubmitButton'
 
-export default function AddBookForm() {
+export default function AddBookForm({ onSuccess }: { onSuccess?: () => void }) {
   const initialState = {
     message: '',
     errors: {
@@ -23,6 +24,12 @@ export default function AddBookForm() {
   const selectId = useId()
   const [posterUrl, setPosterUrl] = useState('')
 
+  useEffect(() => {
+    if ((state as any)?.success && onSuccess) {
+      onSuccess();
+    }
+  }, [state, onSuccess]);
+
   return (
     <div className='w-full sm:w-[80%] flex flex-col py-10'>
       <h3 className='text-center text-2xl font-semibold text-noir-blue'>Add a new Book to the list.</h3>
@@ -33,7 +40,7 @@ export default function AddBookForm() {
             placeholder='Title'
             describedBy='book-title-error'
           />
-          <FormErrorMessage id='book-title-error' errors={state.errors.title} />
+          <FormErrorMessage id='book-title-error' errors={state?.errors?.title} />
 
           <Input
             name='book-poster'
@@ -42,7 +49,7 @@ export default function AddBookForm() {
             value={posterUrl}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPosterUrl(e.target.value)}
           />
-          <FormErrorMessage id='book-poster-error' errors={state.errors.poster} />
+          <FormErrorMessage id='book-poster-error' errors={state?.errors?.poster} />
           {
             posterUrl && (
               <div className='flex justify-center w-full my-1'>
@@ -55,28 +62,29 @@ export default function AddBookForm() {
             <RateSelect
               id={selectId}
               name='book-rate'
-              defaultValue={0}
+              defaultValue={1}
               describedBy='book-rate-error'
-              options={Object.values(animeRateOptions)}
+              options={Object.values(bookRateOptions)}
               width='w-full'
+              type='book'
             />
           </div>
-          <FormErrorMessage id='book-rate-error' errors={state.errors.rate} />
+          <FormErrorMessage id='book-rate-error' errors={state?.errors?.rate} />
 
           <TextArea
             name='book-description'
             placeholder='Description'
             describedBy='book-description-error'
           />
-          <FormErrorMessage id='book-description-error' errors={state.errors.rate} />
+          <FormErrorMessage id='book-description-error' errors={state?.errors?.rate} />
 
-          <FormErrorMessage id='book-external-error' errors={state.errors.external} />
+          <FormErrorMessage id='book-external-error' errors={state?.errors?.external} />
         </div>
 
         <div className='bg-[#000000] w-full px-10 pt-4 pb-8'>
-          <button className='bg-transparent border border-[#333333] rounded px-3 py-2 font-medium text-gray-500 hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] hover:bg-noir-blue/20 transition-all w-full'>
+          <SubmitButton>
             ADD BOOK
-          </button>
+          </SubmitButton>
         </div>
 
         {/* <SuccesModal show={succes} message='Books Succesfully Added.' /> */}

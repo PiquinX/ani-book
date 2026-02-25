@@ -116,8 +116,8 @@ export const createMovie = async (prevState: State, formData: FormData) => {
     }
   }
 
-  revalidatePath('/movies')
-  redirect('/movies')
+  revalidatePath('/movies', 'layout')
+  return { success: true }
 }
 
 export const updateMovie = async (id: string, prevState: State, formData: FormData) => {
@@ -181,7 +181,7 @@ export const updateMovie = async (id: string, prevState: State, formData: FormDa
     }
   }
 
-  revalidatePath(`/movies/edit-movie/${id}`)
-  revalidatePath('/movies')
-  redirect('/movies')
+  revalidatePath(`/movies/edit-movie/${id}`, 'layout')
+  revalidatePath('/movies', 'layout')
+  return { success: true }
 }

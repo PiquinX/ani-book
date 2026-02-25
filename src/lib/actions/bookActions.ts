@@ -116,8 +116,8 @@ export const createBook = async (prevState: State, formData: FormData) => {
     }
   }
 
-  revalidatePath('/books')
-  redirect('/books')
+  revalidatePath('/books', 'layout')
+  return { success: true }
 }
 
 export const updateBook = async (id: string, prevState: State, formData: FormData) => {
@@ -182,7 +182,7 @@ export const updateBook = async (id: string, prevState: State, formData: FormDat
     }
   }
 
-  revalidatePath(`/books/edit-book/${id}`)
-  revalidatePath('/books')
-  redirect('/books')
+  revalidatePath(`/books/edit-book/${id}`, 'layout')
+  revalidatePath('/books', 'layout')
+  return { success: true }
 }

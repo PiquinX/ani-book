@@ -22,6 +22,7 @@ export default function Page() {
         show={showSuccessModal}
         message='Anime Successfully Added!'
         onClose={() => {
+          router.refresh();
           router.push(`/animes?${params.toString()}`);
         }}
       />
@@ -60,7 +61,7 @@ export default function Page() {
           </Link>
         </div>
         {activeTab === 'single' ? (
-          <AddAnimeForm searchParams={params} />
+          <AddAnimeForm searchParams={params} onSuccess={() => setShowSuccessModal(true)} />
         ) : (
           <BulkTxtImportForm onSuccess={() => setShowSuccessModal(true)} />
         )}

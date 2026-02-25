@@ -3,9 +3,27 @@
 import { usePopUp } from '@/hooks/usePopUp'
 import AddBookForm from '@/Components/Books/add/AddBookForm'
 import Link from 'next/link'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import SuccessModal from '@/Components/SuccessModal'
 
 export default function Page() {
   const { popUpData } = usePopUp({ newPath: '/books' })
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const router = useRouter()
+
+  if (showSuccessModal) {
+    return (
+      <SuccessModal
+        show={showSuccessModal}
+        message='Book Successfully Added!'
+        onClose={() => {
+          router.refresh();
+          router.push('/books');
+        }}
+      />
+    );
+  }
 
   return (
     <div
@@ -22,7 +40,7 @@ export default function Page() {
         >
           <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
         </Link>
-        <AddBookForm />
+        <AddBookForm onSuccess={() => setShowSuccessModal(true)} />
       </div>
     </div>
   )

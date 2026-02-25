@@ -4,9 +4,27 @@ import EditBookForm from './EditBookForm'
 import Link from 'next/link'
 import { BookType } from '@/lib/definitions'
 import { usePopUp } from '@/hooks/usePopUp'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import SuccessModal from '@/Components/SuccessModal'
 
 const EditBook = ({ book }: { book: BookType }) => {
   const { popUpData } = usePopUp({ newPath: '/books' })
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const router = useRouter()
+
+  if (showSuccessModal) {
+    return (
+      <SuccessModal
+        show={showSuccessModal}
+        message='Book Successfully Updated!'
+        onClose={() => {
+          router.refresh();
+          router.push('/books');
+        }}
+      />
+    );
+  }
 
   return (
     <div
@@ -23,7 +41,7 @@ const EditBook = ({ book }: { book: BookType }) => {
         >
           <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
         </Link>
-        <EditBookForm {...book} />
+        <EditBookForm {...book} onSuccess={() => setShowSuccessModal(true)} />
       </div>
     </div>
   )

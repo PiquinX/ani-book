@@ -68,7 +68,7 @@ export const fetchJikanAnime = async (query: string, limit: number = 1): Promise
 };
 
 import { animeIsFinishedOptions, animeIsFinishedOptionsFilter, sortOptions } from "./consts"
-import { AnimeFilters, AnimesListType, AnimeToShowType } from "./definitions"
+import { AnimeFilters, AnimeToShowType } from "./definitions"
 
 export const getRate = (rate: string): number => {
     if (rate === 'S+') return 100
@@ -79,11 +79,11 @@ export const getRate = (rate: string): number => {
     if (rate === 'D') return 70
     if (rate === 'E') return 50
     if (rate === 'F') return 45
-    if (rate === 'DONT WATCH') return 10
+    if (rate === "DON'T WATCH" || rate === "DON'T READ") return 10
     return 1
 }
 
-export const getTier = (rate: number): string => {
+export const getRateTier = (rate: number, type?: string): string => {
     if (rate >= 95) return 'S+'
     if (rate >= 90) return 'S'
     if (rate >= 85) return 'A'
@@ -92,21 +92,20 @@ export const getTier = (rate: number): string => {
     if (rate >= 65) return 'D'
     if (rate >= 55) return 'E'
     if (rate >= 45) return 'F'
-    if (rate < 45) return 'DONT WATCH'
+    if (rate < 45) return type === 'book' ? "DON'T READ" : "DON'T WATCH"
     return ''
 }
 
-export const rateColor = (rate: number): string => {
-    if (rate === 100) return 'green-100 text-[#40ff00]'
-    if (rate >= 95) return 'green-95 text-[#40ff00]'
-    if (rate >= 90) return 'text-[#40ff00]'
-    if (rate >= 85) return 'text-[#7fed09]'
-    if (rate >= 80) return 'text-[#9dde10]'
-    if (rate >= 75) return 'text-[#cdde10]'
-    if (rate >= 65) return 'text-[#e0b909]'
-    if (rate >= 55) return 'text-[#e09109]'
-    if (rate >= 45) return 'text-[#e05809]'
-    if (rate < 45) return 'text-[#e01e09]'
+export const getRateColor = (rate: number): string => {
+    if (rate === 100) return 'red-100 text-[#ff1a1a]'
+    if (rate >= 95) return 'red-95 text-[#b91919]'
+    if (rate >= 90) return 'text-[#7fed09]'
+    if (rate >= 85) return 'text-[#ff6913]'
+    if (rate >= 80) return 'text-[#f1ee2a]'
+    if (rate >= 65) return 'text-[#2ffeb2]'
+    if (rate >= 55) return 'text-[#8c2dff]'
+    if (rate >= 45) return 'text-[#000000]'
+    if (rate < 45) return 'text-[#ff2de6]'
     return ''
 }
 
@@ -121,7 +120,7 @@ export const filterAnimes = (animes: AnimeToShowType[], filters: AnimeFilters) =
     }
 
     if (filters.rate) {
-        animes = animes.filter(anime => getTier(anime.averageRate) === filters.rate)
+        animes = animes.filter(anime => getRateTier(anime.averageRate) === filters.rate)
     }
 
     if (filters.isFinished != animeIsFinishedOptionsFilter.default) {

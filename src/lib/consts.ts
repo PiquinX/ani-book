@@ -5,7 +5,7 @@ export const animeIsFinishedOptions = {
 
 export const APIstring = process.env.APISTRING
 
-export const animeRateOptions = {
+const rateOptions = {
   S_PLUS: 'S+',
   S: 'S',
   A: 'A',
@@ -14,7 +14,16 @@ export const animeRateOptions = {
   D: 'D',
   E: 'E',
   F: 'F',
+}
+
+export const animeRateOptions = {
+  ...rateOptions,
   DONT_WATCH: 'DONT WATCH'
+}
+
+export const bookRateOptions = {
+  ...rateOptions,
+  DONT_READ: "DONT READ"
 }
 
 export const sortOptions = {

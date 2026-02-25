@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { AnimesTier } from '@/Components/Animes/show/AnimeTier'
+import { RateTier } from '@/Components/Animes/show/RateTier'
 import { Date } from '@/Components/show/Date'
 import { MediaCardProps } from '@/lib/definitions'
 
@@ -13,12 +13,12 @@ export const MediaCard: React.FC<MediaCardProps> = ({ title, poster, rate, creat
         >
             <h4 className='truncate h-8 font-bold z-10'>{title}</h4>
             <img
-                className="w-full h-[360px] md:h-[400px] rounded-sm grayscale group-hover:grayscale-0 transition-all duration-300 object-cover z-10 bg-gray-900"
+                className="w-full h-[360px] md:h-[400px] rounded-sm grayscale-0 md:grayscale group-hover:grayscale-0 transition-all duration-300 object-cover z-10 bg-gray-900"
                 src={poster}
                 alt={title} />
             <div className='flex font-bold justify-between items-center z-10'>
                 <p className='font-bold text-lg'>
-                    <AnimesTier averageRate={rate} />
+                    <RateTier rate={rate} type={href.includes('book') ? 'book' : 'anime'} />
                 </p>
                 {extraInfo && (
                     <div className='text-sm'>

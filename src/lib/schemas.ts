@@ -12,7 +12,7 @@ export const CreateBookFormSchema = z.object({
   }),
   rate: z.number({
     required_error: 'Rate is required'
-  }).gt(0, {
+  }).gte(0, {
     message: 'Rate must be greater than 0'
   }).lte(100, {
     message: 'Rate must be lower or equal to 100'
@@ -32,7 +32,7 @@ export const CreateMovieFormSchema = z.object({
   }),
   rate: z.number({
     required_error: 'Rate is required'
-  }).gt(0, {
+  }).gte(0, {
     message: 'Rate must be greater than 0'
   }).lte(100, {
     message: 'Rate must be lower or equal to 100'
@@ -52,7 +52,7 @@ export const CreateSerieFormSchema = z.object({
   }),
   rate: z.number({
     required_error: 'Rate is required'
-  }).gt(0, {
+  }).gte(0, {
     message: 'Rate must be greater than 0'
   }).lte(100, {
     message: 'Rate must be lower or equal to 100'
@@ -74,7 +74,7 @@ export const CreateAnimeFormSchema = z.object({
     value: z.string(),
     rate: z.number({
       required_error: 'Rate is required'
-    }).gt(0, {
+    }).gte(0, {
       message: 'Rate must be greater than 0'
     }).lte(100, {
       message: 'Rate must be lower or equal to 100'

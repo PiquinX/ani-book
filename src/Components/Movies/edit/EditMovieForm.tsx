@@ -1,5 +1,8 @@
 'use client'
 
+import { useEffect } from 'react'
+import SubmitButton from '@/Components/forms/SubmitButton'
+
 import { updateMovie } from '@/lib/actions/moviesActions'
 import Input from '@/Components/forms/Input'
 import { useFormState } from 'react-dom'
@@ -9,7 +12,7 @@ import TextArea from '@/Components/forms/TextArea'
 import { animeRateOptions } from '@/lib/consts'
 import { RateSelect } from '@/Components/Animes/edit/RateSelect'
 
-export default function EditMovieForm({ id, title, poster, rate, description }: MovieUpdateType) {
+export default function EditMovieForm({ id, title, poster, rate, description, onSuccess }: MovieUpdateType & { onSuccess?: () => void }) {
   const updateSerieWithID = updateMovie.bind(null, id)
   const initialState = {
     message: '',
@@ -23,6 +26,12 @@ export default function EditMovieForm({ id, title, poster, rate, description }: 
   }
   const [state, dispatch] = useFormState(updateSerieWithID, initialState)
 
+  useEffect(() => {
+    if ((state as any)?.success && onSuccess) {
+      onSuccess();
+    }
+  }, [state, onSuccess]);
+
   return (
     <div className='w-full sm:w-[80%] flex flex-col py-10'>
       <form className='flex flex-col gap-5' action={dispatch}>
@@ -35,7 +44,7 @@ export default function EditMovieForm({ id, title, poster, rate, description }: 
             style='text-4xl text-noir-blue'
             defaultValue={title}
           />
-          <FormErrorMessage id='movie-title-error' errors={state.errors.title} />
+          <FormErrorMessage id='movie-title-error' errors={state?.errors?.title} />
 
           <div className='flex gap-2 flex-col'>
             <Input
@@ -45,7 +54,7 @@ export default function EditMovieForm({ id, title, poster, rate, description }: 
               defaultValue={poster}
             />
             <img className='rounded self-center w-[70%]' src={poster} alt={`${title} poster`} />
-            <FormErrorMessage id='movie-poster-error' errors={state.errors.poster} />
+            <FormErrorMessage id='movie-poster-error' errors={state?.errors?.poster} />
           </div>
 
           <div className='flex flex-col gap-2'>
@@ -57,7 +66,7 @@ export default function EditMovieForm({ id, title, poster, rate, description }: 
               options={Object.values(animeRateOptions)}
               width='w-full text-white'
             />
-            <FormErrorMessage id='movie-rate-error' errors={state.errors.rate} />
+            <FormErrorMessage id='movie-rate-error' errors={state?.errors?.rate} />
           </div>
 
           <div className='w-full h-max'>
@@ -68,16 +77,16 @@ export default function EditMovieForm({ id, title, poster, rate, description }: 
               describedBy='movie-description-error'
               defaultValue={description}
             />
-            <FormErrorMessage id='movie-description-error' errors={state.errors.rate} />
+            <FormErrorMessage id='movie-description-error' errors={state?.errors?.description} />
           </div>
 
-          <FormErrorMessage id='movie-external-error' errors={state.errors.external} />
+          <FormErrorMessage id='movie-external-error' errors={state?.errors?.external} />
         </div>
 
         <div className='bg-[#000000] w-full px-10 pt-4 pb-8'>
-          <button className='bg-transparent border border-[#333333] rounded px-3 py-2 font-medium text-gray-500 hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] hover:bg-noir-blue/20 transition-all w-full'>
+          <SubmitButton>
             UPDATE MOVIE
-          </button>
+          </SubmitButton>
         </div>
 
         {/* <SuccesModal show={succes} message='series Succesfully Added.' /> */}

@@ -98,7 +98,7 @@ export default function AddAnimeForm({ searchParams, onSuccess }: { searchParams
                     />
                     <RateSelect
                       id={selectId + '-' + index}
-                      defaultValue={value.rate || 0}
+                      defaultValue={value.rate || 1}
                       describedBy='anime-rate-error'
                       name='anime-rate'
                       options={Object.values(animeRateOptions)}

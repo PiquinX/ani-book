@@ -4,9 +4,27 @@ import EditMovieForm from './EditMovieForm'
 import Link from 'next/link'
 import { MovieType } from '@/lib/definitions'
 import { usePopUp } from '@/hooks/usePopUp'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import SuccessModal from '@/Components/SuccessModal'
 
 const EditMovie = ({ movie }: { movie: MovieType }) => {
   const { popUpData } = usePopUp({ newPath: '/movies' })
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const router = useRouter()
+
+  if (showSuccessModal) {
+    return (
+      <SuccessModal
+        show={showSuccessModal}
+        message='Movie Successfully Updated!'
+        onClose={() => {
+          router.refresh();
+          router.push('/movies');
+        }}
+      />
+    );
+  }
 
   return (
     <div
@@ -23,7 +41,7 @@ const EditMovie = ({ movie }: { movie: MovieType }) => {
         >
           <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
         </Link>
-        <EditMovieForm {...movie} />
+        <EditMovieForm {...movie} onSuccess={() => setShowSuccessModal(true)} />
       </div>
     </div>
   )

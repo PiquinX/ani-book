@@ -4,9 +4,27 @@ import Link from 'next/link'
 import { SerieType } from '@/lib/definitions'
 import EditSerieForm from './EditSerieForm'
 import { usePopUp } from '@/hooks/usePopUp'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import SuccessModal from '@/Components/SuccessModal'
 
 const EditSerie = ({ serie }: { serie: SerieType }) => {
   const { popUpData } = usePopUp({ newPath: '/series' })
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const router = useRouter()
+
+  if (showSuccessModal) {
+    return (
+      <SuccessModal
+        show={showSuccessModal}
+        message='Serie Successfully Updated!'
+        onClose={() => {
+          router.refresh();
+          router.push('/series');
+        }}
+      />
+    );
+  }
 
   return (
     <div
@@ -23,7 +41,7 @@ const EditSerie = ({ serie }: { serie: SerieType }) => {
         >
           <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
         </Link>
-        <EditSerieForm {...serie} />
+        <EditSerieForm {...serie} onSuccess={() => setShowSuccessModal(true)} />
       </div>
     </div>
   )

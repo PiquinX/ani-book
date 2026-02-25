@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react'
 import { useSelect } from '@/hooks/useSelect'
-import { getRate, getTier } from '@/lib/utils'
+import { getRate, getRateTier } from '@/lib/utils'
 
 interface Props {
   id: string
@@ -9,14 +9,15 @@ interface Props {
   name: string
   describedBy?: string
   width?: string
+  type?: 'anime' | 'book' | 'movie' | 'serie'
 }
 
 export function RateSelect(
-  { id, options, defaultValue, name, describedBy, width = 'w-[200px] sm:w-[225px]' }: Props
+  { id, options, defaultValue, name, describedBy, width = 'w-[200px] sm:w-[225px]', type }: Props
 ): ReactNode {
   // The states contains if the select it's shown or not.
   const { isShowing, setIsShowing } = useSelect(id)
-  const [value, setValue] = useState(getTier(defaultValue))
+  const [value, setValue] = useState(getRateTier(defaultValue, type))
   const [inputValue, setInputValue] = useState(defaultValue)
 
   // We apply styles depending on the isShowing state.

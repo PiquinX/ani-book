@@ -115,8 +115,8 @@ export const createSerie = async (prevState: State, formData: FormData) => {
     }
   }
 
-  revalidatePath('/series')
-  redirect('/series')
+  revalidatePath('/series', 'layout')
+  return { success: true }
 }
 
 export const updateSerie = async (id: string, prevState: State, formData: FormData) => {
@@ -177,7 +177,7 @@ export const updateSerie = async (id: string, prevState: State, formData: FormDa
     }
   }
 
-  revalidatePath(`/series/edit-serie/${id}`)
-  revalidatePath('/series')
-  redirect('/series')
+  revalidatePath(`/series/edit-serie/${id}`, 'layout')
+  revalidatePath('/series', 'layout')
+  return { success: true }
 }

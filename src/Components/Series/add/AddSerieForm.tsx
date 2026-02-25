@@ -6,9 +6,10 @@ import TextArea from '@/Components/forms/TextArea'
 
 import { animeRateOptions } from '@/lib/consts'
 import { RateSelect } from '@/Components/Animes/edit/RateSelect'
-import { useId, useState } from 'react'
+import { useId, useState, useEffect } from 'react'
+import SubmitButton from '@/Components/forms/SubmitButton'
 
-export default function AddSerieForm() {
+export default function AddSerieForm({ onSuccess }: { onSuccess?: () => void }) {
   const initialState = {
     message: '',
     errors: {
@@ -23,6 +24,12 @@ export default function AddSerieForm() {
   const selectId = useId()
   const [posterUrl, setPosterUrl] = useState('')
 
+  useEffect(() => {
+    if ((state as any)?.success && onSuccess) {
+      onSuccess();
+    }
+  }, [state, onSuccess]);
+
   return (
     <div className='w-full sm:w-[80%] flex flex-col py-10'>
       <h3 className='text-center text-2xl font-semibold text-noir-blue'>Add a new serie to the list.</h3>
@@ -33,7 +40,7 @@ export default function AddSerieForm() {
             placeholder='Title'
             describedBy='serie-title-error'
           />
-          <FormErrorMessage id='serie-title-error' errors={state.errors.title} />
+          <FormErrorMessage id='serie-title-error' errors={state?.errors?.title} />
 
           <Input
             name='serie-poster'
@@ -42,7 +49,7 @@ export default function AddSerieForm() {
             value={posterUrl}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPosterUrl(e.target.value)}
           />
-          <FormErrorMessage id='serie-poster-error' errors={state.errors.poster} />
+          <FormErrorMessage id='serie-poster-error' errors={state?.errors?.poster} />
           {
             posterUrl && (
               <div className='flex justify-center w-full my-1'>
@@ -55,28 +62,28 @@ export default function AddSerieForm() {
             <RateSelect
               id={selectId}
               name='serie-rate'
-              defaultValue={0}
+              defaultValue={1}
               describedBy='serie-rate-error'
               options={Object.values(animeRateOptions)}
               width='w-full'
             />
           </div>
-          <FormErrorMessage id='serie-rate-error' errors={state.errors.rate} />
+          <FormErrorMessage id='serie-rate-error' errors={state?.errors?.rate} />
 
           <TextArea
             name='serie-description'
             placeholder='Description'
             describedBy='serie-description-error'
           />
-          <FormErrorMessage id='serie-description-error' errors={state.errors.rate} />
+          <FormErrorMessage id='serie-description-error' errors={state?.errors?.description} />
 
-          <FormErrorMessage id='serie-external-error' errors={state.errors.external} />
+          <FormErrorMessage id='serie-external-error' errors={state?.errors?.external} />
         </div>
 
         <div className='bg-[#000000] w-full px-10 pt-4 pb-8'>
-          <button className='bg-transparent border border-[#333333] rounded px-3 py-2 font-medium text-gray-500 hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] hover:bg-noir-blue/20 transition-all w-full'>
+          <SubmitButton>
             ADD SERIE
-          </button>
+          </SubmitButton>
         </div>
 
         {/* <SuccesModal show={succes} message='series Succesfully Added.' /> */}

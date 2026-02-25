@@ -1,15 +1,18 @@
 'use client'
 
+import { useEffect } from 'react'
+import SubmitButton from '@/Components/forms/SubmitButton'
+
 import { updateBook } from '@/lib/actions/bookActions'
 import Input from '@/Components/forms/Input'
 import { useFormState } from 'react-dom'
 import { BookUpdateType } from '@/lib/definitions'
 import FormErrorMessage from '@/Components/forms/FormErrorMessage'
 import TextArea from '@/Components/forms/TextArea'
-import { animeRateOptions } from '@/lib/consts'
+import { bookRateOptions } from '@/lib/consts'
 import { RateSelect } from '@/Components/Animes/edit/RateSelect'
 
-export default function EditBookForm({ id, title, poster, rate, description }: BookUpdateType) {
+export default function EditBookForm({ id, title, poster, rate, description, onSuccess }: BookUpdateType & { onSuccess?: () => void }) {
   const updateBookWithID = updateBook.bind(null, id)
   const initialState = {
     message: '',
@@ -22,6 +25,12 @@ export default function EditBookForm({ id, title, poster, rate, description }: B
     },
   }
   const [state, dispatch] = useFormState(updateBookWithID, initialState)
+
+  useEffect(() => {
+    if ((state as any)?.success && onSuccess) {
+      onSuccess();
+    }
+  }, [state, onSuccess]);
 
   return (
     <div className='w-full sm:w-[80%] flex flex-col py-10'>
@@ -45,7 +54,7 @@ export default function EditBookForm({ id, title, poster, rate, description }: B
               defaultValue={poster}
             />
             <img className='rounded self-center w-[70%]' src={poster} alt={`${title} poster`} />
-            <FormErrorMessage id='book-poster-error' errors={state.errors.poster} />
+            <FormErrorMessage id='book-poster-error' errors={state?.errors?.poster} />
           </div>
 
           <div className='flex flex-col gap-2'>
@@ -54,10 +63,11 @@ export default function EditBookForm({ id, title, poster, rate, description }: B
               name='book-rate'
               defaultValue={rate}
               describedBy='book-rate-error'
-              options={Object.values(animeRateOptions)}
+              options={Object.values(bookRateOptions)}
               width='w-full text-white'
+              type='book'
             />
-            <FormErrorMessage id='book-rate-error' errors={state.errors.rate} />
+            <FormErrorMessage id='book-rate-error' errors={state?.errors?.rate} />
           </div>
 
           <div className='w-full h-max'>
@@ -68,15 +78,17 @@ export default function EditBookForm({ id, title, poster, rate, description }: B
               describedBy='book-description-error'
               defaultValue={description}
             />
-            <FormErrorMessage id='book-description-error' errors={state.errors.rate} />
+            <FormErrorMessage id='book-description-error' errors={state?.errors?.rate} />
           </div>
 
-          <FormErrorMessage id='book-external-error' errors={state.errors.external} />
+          <FormErrorMessage id='book-external-error' errors={state?.errors?.external} />
         </div>
 
-        <button className='bg-transparent border border-[#333333] rounded px-3 py-2 font-medium text-gray-500 hover:text-white hover:border-noir-blue hover:shadow-[0_0_25px_5px_var(--noir-blue)] hover:bg-noir-blue/20 transition-all w-full'>
-          UPDATE BOOK
-        </button>
+        <div className='bg-[#000000] w-full px-10 pt-4 pb-8'>
+          <SubmitButton>
+            UPDATE BOOK
+          </SubmitButton>
+        </div>
 
         {/* <SuccesModal show={succes} message='Books Succesfully Added.' /> */}
       </form>
