@@ -9,6 +9,9 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
     }),
   ],
+  pages: {
+    signIn: '/login',
+  },
   events: {
     signIn: async (message: any) => {
       onLogin(message.user)

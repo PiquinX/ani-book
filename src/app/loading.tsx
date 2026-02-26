@@ -1,5 +1,5 @@
-import LoadingItemsSkeleton from '@/Components/skeletons'
+import { HomeLoadingSkeleton } from '@/Components/skeletons'
 
-export default function Loading () {
-  return <LoadingItemsSkeleton />
+export default function Loading() {
+  return <HomeLoadingSkeleton />
 }

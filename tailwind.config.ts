@@ -11,6 +11,7 @@ const config: Config = {
       xs: { min: '390px' },
       sm: { min: '500px' },
       md: { min: '768px' },
+      mdl: { min: '840px' },
       lg: { min: '1024px' },
       xl: { min: '1280px' },
       '2xl': { min: '1600px' }
