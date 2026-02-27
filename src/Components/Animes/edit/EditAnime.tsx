@@ -6,7 +6,9 @@ import { AnimeType } from '@/lib/definitions'
 import { usePopUp } from '@/hooks/usePopUp'
 import { useSearchParams, useRouter } from 'next/navigation'
 import SuccessModal from '@/Components/SuccessModal'
+import ConfirmModal from '@/Components/ConfirmModal'
 import { useState } from 'react'
+import { deleteAnime } from '@/lib/actions/animeActions'
 
 
 const EditAnime = ({ anime }: { anime: AnimeType }) => {
@@ -14,13 +16,28 @@ const EditAnime = ({ anime }: { anime: AnimeType }) => {
   const params = new URLSearchParams(searchParams);
   const router = useRouter();
   const { popUpData } = usePopUp({ newPath: `/animes?${params.toString()}` })
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState<'updated' | 'deleted' | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    const res = await deleteAnime(anime.id);
+    setIsDeleting(false);
+    if (res.success) {
+      setShowConfirmModal(false);
+      setShowSuccessModal('deleted');
+    } else {
+      alert(res.errorMessage || 'Failed to delete anime');
+      setShowConfirmModal(false);
+    }
+  };
 
   if (showSuccessModal) {
     return (
       <SuccessModal
-        show={showSuccessModal}
-        message='Anime Successfully Updated!'
+        show={!!showSuccessModal}
+        message={showSuccessModal === 'deleted' ? 'Anime Successfully Deleted!' : 'Anime Successfully Updated!'}
         onClose={() => {
           router.push(`/animes?${params.toString()}`);
         }}
@@ -43,7 +60,23 @@ const EditAnime = ({ anime }: { anime: AnimeType }) => {
         >
           <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
         </Link>
-        <EditAnimeForm {...anime} onSuccess={() => setShowSuccessModal(true)} />
+        <button
+          type="button"
+          onClick={() => setShowConfirmModal(true)}
+          className='absolute flex items-center gap-2 px-3 py-1.5 border border-[#333333] rounded text-sm font-medium text-gray-500 animate-appear-fast top-5 left-6 hover:text-[#FF1111] hover:border-[#FF1111] hover:bg-[#FF1111]/10 hover:shadow-[0_0_15px_rgba(255,17,17,0.4)] transition-all cursor-pointer'
+        >
+          <i className="fa-solid fa-trash-can" />
+          Delete
+        </button>
+        <EditAnimeForm {...anime} onSuccess={() => setShowSuccessModal('updated')} />
+        <ConfirmModal
+          show={showConfirmModal}
+          title="Delete Anime"
+          message="Are you sure you want to delete this anime? This action cannot be undone."
+          onConfirm={handleDelete}
+          onCancel={() => setShowConfirmModal(false)}
+          isProcessing={isDeleting}
+        />
       </div>
     </div>
   )

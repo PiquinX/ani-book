@@ -7,17 +7,34 @@ import { usePopUp } from '@/hooks/usePopUp'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import SuccessModal from '@/Components/SuccessModal'
+import ConfirmModal from '@/Components/ConfirmModal'
+import { deleteBook } from '@/lib/actions/bookActions'
 
 const EditBook = ({ book }: { book: BookType }) => {
   const { popUpData } = usePopUp({ newPath: '/books' })
-  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState<'updated' | 'deleted' | null>(null)
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter()
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    const res = await deleteBook(book.id);
+    setIsDeleting(false);
+    if (res.success) {
+      setShowConfirmModal(false);
+      setShowSuccessModal('deleted');
+    } else {
+      alert(res.errorMessage || 'Failed to delete book');
+      setShowConfirmModal(false);
+    }
+  };
 
   if (showSuccessModal) {
     return (
       <SuccessModal
-        show={showSuccessModal}
-        message='Book Successfully Updated!'
+        show={!!showSuccessModal}
+        message={showSuccessModal === 'deleted' ? 'Book Successfully Deleted!' : 'Book Successfully Updated!'}
         onClose={() => {
           router.refresh();
           router.push('/books');
@@ -41,7 +58,23 @@ const EditBook = ({ book }: { book: BookType }) => {
         >
           <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
         </Link>
-        <EditBookForm {...book} onSuccess={() => setShowSuccessModal(true)} />
+        <button
+          type="button"
+          onClick={() => setShowConfirmModal(true)}
+          className='absolute flex items-center gap-2 px-3 py-1.5 border border-[#333333] rounded text-sm font-medium text-gray-500 animate-appear-fast top-5 left-6 hover:text-[#FF1111] hover:border-[#FF1111] hover:bg-[#FF1111]/10 hover:shadow-[0_0_15px_rgba(255,17,17,0.4)] transition-all cursor-pointer'
+        >
+          <i className="fa-solid fa-trash-can" />
+          Delete
+        </button>
+        <EditBookForm {...book} onSuccess={() => setShowSuccessModal('updated')} />
+        <ConfirmModal
+          show={showConfirmModal}
+          title="Delete Book"
+          message="Are you sure you want to delete this book? This action cannot be undone."
+          onConfirm={handleDelete}
+          onCancel={() => setShowConfirmModal(false)}
+          isProcessing={isDeleting}
+        />
       </div>
     </div>
   )

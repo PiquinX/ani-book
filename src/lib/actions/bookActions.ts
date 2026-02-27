@@ -186,3 +186,35 @@ export const updateBook = async (id: string, prevState: State, formData: FormDat
   revalidatePath('/books', 'layout')
   return { success: true }
 }
+
+export const deleteBook = async (id: string) => {
+  const session = await getServerSession(authOptions)
+  const email = session?.user?.email
+
+  if (!email) {
+    return { success: false, errorMessage: 'Unauthorized' }
+  }
+
+  console.log('id', id)
+  try {
+    const response = await fetch(`${APIstring}/books/${id}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'DELETE',
+      body: JSON.stringify({ email })
+    })
+
+    const result = await response.json()
+
+    if (result.errorMessage) {
+      return { success: false, errorMessage: result.errorMessage }
+    }
+  } catch (err) {
+    console.log(err)
+    return { success: false, errorMessage: 'Unexpected Error, try again' }
+  }
+
+  revalidatePath('/books', 'layout')
+  return { success: true }
+}
