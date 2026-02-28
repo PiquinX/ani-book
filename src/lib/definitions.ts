@@ -142,6 +142,12 @@ export interface SuccessModalProps {
     onClose: () => void;
 }
 
+export interface ErrorModalProps {
+    show: boolean;
+    message: string;
+    onClose: () => void;
+}
+
 export interface MediaCardProps {
     title: string
     poster: string

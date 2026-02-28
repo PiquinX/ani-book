@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react'
 import { useBulkImport } from '@/hooks/useBulkImport'
-import ReviewingList from './ReviewingList'
+import ReviewingModal from './ReviewingModal'
 
 interface Props {
     onSuccess: () => void
@@ -23,7 +23,8 @@ export default function BulkTxtImportForm({ onSuccess }: Props) {
         toggleAllSelections,
         updateParsedTitle,
         parseFile,
-        startImport
+        startImport,
+        cancelReview
     } = useBulkImport(session?.user?.email, onSuccess)
 
     return (
@@ -56,40 +57,31 @@ export default function BulkTxtImportForm({ onSuccess }: Props) {
                     </div>
                 )}
 
-                {errorMSG && (
+                {errorMSG && !isReviewing && (
                     <div className='text-red-500 text-sm text-center p-2 rounded bg-red-500/10 border border-red-500/20'>
                         {errorMSG}
                     </div>
                 )}
 
-                {isReviewing && !isProcessing && parsedTitles.length > 0 && (
-                    <ReviewingList
+                {isReviewing && (
+                    <ReviewingModal
+                        file={file}
                         parsedTitles={parsedTitles}
+                        isProcessing={isProcessing}
+                        progress={progress}
+                        total={total}
+                        errorMSG={errorMSG}
                         onToggleSelection={toggleTitleSelection}
                         onToggleAll={toggleAllSelections}
                         onUpdateTitle={updateParsedTitle}
+                        onConfirm={startImport}
+                        onCancel={cancelReview}
                     />
-                )}
-
-                {isProcessing && isReviewing && (
-                    <div className='flex flex-col gap-2 w-full mt-4'>
-                        <div className='flex justify-between text-xs text-gray-400'>
-                            <span>Processing...</span>
-                            <span>{Math.round((progress / total) * 100) || 0}% ({progress}/{total})</span>
-                        </div>
-                        <div className='w-full bg-gray-800 rounded-full h-2.5 overflow-hidden'>
-                            <div
-                                className='bg-noir-blue h-2.5 rounded-full transition-all duration-300 ease-out'
-                                style={{ width: `${(progress / total) * 100}%`, backgroundColor: '#4f46e5' }}
-                            ></div>
-                        </div>
-                        <p className='text-[10px] text-gray-500 text-center mt-1'>Fetching metadata & images...</p>
-                    </div>
                 )}
             </div>
 
             <div className='bg-transparent w-full px-10 mt-auto'>
-                {!isReviewing ? (
+                {!isReviewing && (
                     <button
                         type="button"
                         onClick={parseFile}
@@ -100,18 +92,6 @@ export default function BulkTxtImportForm({ onSuccess }: Props) {
                             }`}
                     >
                         {isProcessing ? 'PARSING...' : 'PARSE TXT FILE'}
-                    </button>
-                ) : (
-                    <button
-                        type="button"
-                        onClick={startImport}
-                        disabled={isProcessing || parsedTitles.filter(t => t.selected).length === 0}
-                        className={`duration-200 w-full py-2 border-2 font-medium rounded ${isProcessing || parsedTitles.filter(t => t.selected).length === 0
-                            ? 'border-gray-600 text-gray-600 cursor-not-allowed'
-                            : 'hover:bg-noir-blue cursor-pointer hover:text-white text-noir-blue border-noir-blue hover:shadow-[0_0_15px_rgba(30,58,138,0.6)] shadow-none transition-all'
-                            }`}
-                    >
-                        {isProcessing ? 'IMPORTING...' : 'CONFIRM & IMPORT'}
                     </button>
                 )}
             </div>

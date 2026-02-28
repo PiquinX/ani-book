@@ -8,11 +8,13 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import SuccessModal from '@/Components/SuccessModal'
 import ConfirmModal from '@/Components/ConfirmModal'
+import ErrorModal from '@/Components/ErrorModal'
 import { deleteBook } from '@/lib/actions/bookActions'
 
 const EditBook = ({ book }: { book: BookType }) => {
   const { popUpData } = usePopUp({ newPath: '/books' })
   const [showSuccessModal, setShowSuccessModal] = useState<'updated' | 'deleted' | null>(null)
+  const [showErrorModal, setShowErrorModal] = useState<string | null>(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter()
@@ -25,8 +27,8 @@ const EditBook = ({ book }: { book: BookType }) => {
       setShowConfirmModal(false);
       setShowSuccessModal('deleted');
     } else {
-      alert(res.errorMessage || 'Failed to delete book');
       setShowConfirmModal(false);
+      setShowErrorModal(res.errorMessage || 'Failed to delete book');
     }
   };
 
@@ -74,6 +76,11 @@ const EditBook = ({ book }: { book: BookType }) => {
           onConfirm={handleDelete}
           onCancel={() => setShowConfirmModal(false)}
           isProcessing={isDeleting}
+        />
+        <ErrorModal
+          show={!!showErrorModal}
+          message={showErrorModal || ''}
+          onClose={() => setShowErrorModal(null)}
         />
       </div>
     </div>

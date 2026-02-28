@@ -38,6 +38,14 @@ export function useBulkImport(sessionEmail: string | null | undefined, onSuccess
         ));
     };
 
+    const cancelReview = () => {
+        setIsReviewing(false);
+        setParsedTitles([]);
+        setFile(null);
+        setErrorMSG(null);
+    };
+
+
     const parseFile = async () => {
         if (!file) {
             setErrorMSG('Please select a file to upload.');
@@ -157,6 +165,7 @@ export function useBulkImport(sessionEmail: string | null | undefined, onSuccess
         toggleAllSelections,
         updateParsedTitle,
         parseFile,
-        startImport
+        startImport,
+        cancelReview
     };
 }

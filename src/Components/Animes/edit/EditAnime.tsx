@@ -7,6 +7,7 @@ import { usePopUp } from '@/hooks/usePopUp'
 import { useSearchParams, useRouter } from 'next/navigation'
 import SuccessModal from '@/Components/SuccessModal'
 import ConfirmModal from '@/Components/ConfirmModal'
+import ErrorModal from '@/Components/ErrorModal'
 import { useState } from 'react'
 import { deleteAnime } from '@/lib/actions/animeActions'
 
@@ -17,6 +18,7 @@ const EditAnime = ({ anime }: { anime: AnimeType }) => {
   const router = useRouter();
   const { popUpData } = usePopUp({ newPath: `/animes?${params.toString()}` })
   const [showSuccessModal, setShowSuccessModal] = useState<'updated' | 'deleted' | null>(null);
+  const [showErrorModal, setShowErrorModal] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -28,8 +30,8 @@ const EditAnime = ({ anime }: { anime: AnimeType }) => {
       setShowConfirmModal(false);
       setShowSuccessModal('deleted');
     } else {
-      alert(res.errorMessage || 'Failed to delete anime');
       setShowConfirmModal(false);
+      setShowErrorModal(res.errorMessage || 'Failed to delete anime');
     }
   };
 
@@ -76,6 +78,11 @@ const EditAnime = ({ anime }: { anime: AnimeType }) => {
           onConfirm={handleDelete}
           onCancel={() => setShowConfirmModal(false)}
           isProcessing={isDeleting}
+        />
+        <ErrorModal
+          show={!!showErrorModal}
+          message={showErrorModal || ''}
+          onClose={() => setShowErrorModal(null)}
         />
       </div>
     </div>
