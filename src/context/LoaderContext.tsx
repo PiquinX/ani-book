@@ -9,18 +9,26 @@ interface LoaderContextType {
 
 const LoaderContext = createContext<LoaderContextType | undefined>(undefined)
 
-export const LoaderProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isLoading, setIsLoading] = useState(false)
+const NavigationEvents = ({ setIsLoading }: { setIsLoading: (loading: boolean) => void }) => {
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
     // Automatically hide loader when path or searchParams change (navigation completes)
     useEffect(() => {
         setIsLoading(false)
-    }, [pathname, searchParams])
+    }, [pathname, searchParams, setIsLoading])
+
+    return null
+}
+
+export const LoaderProvider = ({ children }: { children: React.ReactNode }) => {
+    const [isLoading, setIsLoading] = useState(false)
 
     return (
         <LoaderContext.Provider value={{ isLoading, setIsLoading }}>
+            <React.Suspense fallback={null}>
+                <NavigationEvents setIsLoading={setIsLoading} />
+            </React.Suspense>
             {children}
         </LoaderContext.Provider>
     )
