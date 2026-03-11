@@ -72,38 +72,25 @@ export const fetchMediaData = async (query: string, limit: number = 5, type: 'an
         return fetchJikanAnime(query, limit);
     } else if (type === 'book') {
         try {
-            const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(query)}&maxResults=${limit}&langRestrict=en`);
+            const res = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(query)}&limit=${limit}`);
             if (!res.ok) {
                 return [];
             }
             const data = await res.json();
 
             // Format the output specifically for books
-            const formattedResults = (data.items || []).map((item: any) => {
-                const volumeInfo = item.volumeInfo || {};
-
-                // Get highest resolution image link
-                const imageLinks = volumeInfo.imageLinks || {};
+            const formattedResults = (data.docs || []).map((doc: any, index: number) => {
                 let imageUrl = '';
-                if (imageLinks.extraLarge) imageUrl = imageLinks.extraLarge;
-                else if (imageLinks.large) imageUrl = imageLinks.large;
-                else if (imageLinks.medium) imageUrl = imageLinks.medium;
-                else if (imageLinks.small) imageUrl = imageLinks.small;
-                else if (imageLinks.thumbnail) imageUrl = imageLinks.thumbnail;
-                else if (imageLinks.smallThumbnail) imageUrl = imageLinks.smallThumbnail;
-
-                // Assure HTTPS
-                imageUrl = imageUrl.replace(/^http:\/\//i, 'https://');
-
-                // Enhance quality if it's a thumbnail by increasing zoom and removing the curled edge
-                imageUrl = imageUrl.replace('&zoom=1', '&zoom=3').replace('&edge=curl', '');
+                if (doc.cover_i) {
+                    imageUrl = `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`;
+                }
 
                 return {
-                    id: item.id,
-                    title: volumeInfo.title || '',
-                    author: volumeInfo.authors ? volumeInfo.authors[0] : null,
-                    description: volumeInfo.description || '',
-                    publishedDate: volumeInfo.publishedDate || null,
+                    id: doc.key || String(index),
+                    title: doc.title || '',
+                    author: doc.author_name && doc.author_name.length > 0 ? doc.author_name[0] : null,
+                    description: '', // OpenLibrary search API typically doesn't return full descriptions
+                    publishedDate: doc.first_publish_year ? String(doc.first_publish_year) : null,
                     images: {
                         image_url: imageUrl
                     }
