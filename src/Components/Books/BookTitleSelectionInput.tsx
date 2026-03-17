@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import Input from '@/Components/forms/Input'
 import { useMediaSearch } from '@/hooks/useMediaSearch'
 import { BookSearchResult } from '@/lib/definitions'
+import { Loader2 } from "lucide-react";
+
 
 interface BookTitleSelectionInputProps {
     onSelectTitle: (title: string, poster: string, author: string, description: string) => void
@@ -56,7 +58,7 @@ const BookTitleSelectionInput: React.FC<BookTitleSelectionInputProps> = ({ onSel
 
             {loading && (
                 <div className='absolute right-3 top-2 text-sm text-gray-400 z-10'>
-                    <i className="fa-solid fa-spinner animate-spin"></i>
+                    <Loader2 className="animate-spin w-5 h-5 shrink-0" />
                 </div>
             )}
 

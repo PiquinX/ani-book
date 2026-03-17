@@ -4,6 +4,8 @@ import { FILTERPARAMSOPTIONS } from "@/lib/consts"
 import { useSearchParams, useRouter } from "next/navigation"
 import debounce from 'just-debounce-it'
 import { useCallback, useState } from "react"
+import { Search, X } from "lucide-react";
+
 
 const AnimeSearchInput = () => {
   const searchParams = useSearchParams()
@@ -61,14 +63,14 @@ const AnimeSearchInput = () => {
           focus:w-44 focus:bg-noir-blue/20 focus:z-400 focus:pl-10 focus:border-noir-blue focus:shadow-[0_0_25px_5px_rgba(0,0,255,0.6)]`}
       />
 
-      <label htmlFor='search' className='text-gray-500 peer-focus:text-noir-blue transition-colors'>
-        <i className='absolute top-2 left-0 px-[.56rem] py-[0.15rem] text-2xl fa-solid fa-magnifying-glass cursor-pointer' />
+      <label htmlFor='search' className='text-gray-500 peer-focus:text-noir-blue transition-colors absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none'>
+        <Search className="w-6 h-6 shrink-0" />
       </label>
 
-      <label htmlFor='search' className={`${xmarkClass}`}>
-        <i
+      <label htmlFor='search' className={`${xmarkClass} absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center`}>
+        <X
           onClick={restartSearch}
-          className={`text-white absolute top-2 right-0 px-[.53rem] py-1 text-xl fa-solid fa-xmark opacity-60 cursor-pointer transition-colors`}
+          className="w-5 h-5 text-white opacity-60 cursor-pointer transition-colors hover:text-red-500 shrink-0"
         />
       </label>
     </div>

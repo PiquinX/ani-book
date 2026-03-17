@@ -3,6 +3,8 @@
 import { useSession } from 'next-auth/react'
 import { useBulkImport } from '@/hooks/useBulkImport'
 import ReviewingModal from './ReviewingModal'
+import { FileText } from "lucide-react";
+
 
 interface Props {
     onSuccess: () => void
@@ -53,7 +55,7 @@ export default function BulkTxtImportForm({ onSuccess }: Props) {
                 {file && (
                     <div className='flex items-center justify-between p-3 border border-gray-700 rounded bg-[#111]'>
                         <span className='text-sm text-gray-300 truncate'>{file.name}</span>
-                        <i className="fa-solid fa-file-lines text-blue-500"></i>
+                        <FileText className="text-blue-500 w-12 h-12 shrink-0" />
                     </div>
                 )}
 

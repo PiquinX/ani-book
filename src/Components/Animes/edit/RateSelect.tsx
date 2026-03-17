@@ -17,7 +17,7 @@ export function RateSelect(
 ): ReactNode {
   // The states contains if the select it's shown or not.
   const { isShowing, setIsShowing } = useSelect(id)
-  const [value, setValue] = useState(getRateTier(defaultValue, type))
+  const [value, setValue] = useState(getRateTier(defaultValue))
   const [inputValue, setInputValue] = useState(defaultValue)
 
   // We apply styles depending on the isShowing state.

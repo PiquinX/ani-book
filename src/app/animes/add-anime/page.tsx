@@ -7,6 +7,8 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import SuccessModal from '@/Components/SuccessModal';
 import BulkTxtImportForm from '@/Components/Animes/add/BulkImportForm';
+import { X } from "lucide-react";
+
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -57,7 +59,7 @@ export default function Page() {
             scroll={false}
             className='text-3xl text-gray-500 animate-appear-fast mb-1'
           >
-            <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
+            <X className="duration-150 hover:rotate-90 hover:text-red-500 w-8 h-8 shrink-0" />
           </Link>
         </div>
         {activeTab === 'single' ? (

@@ -22,7 +22,7 @@ export default function SubmitButton({ children }: SubmitButtonProps) {
         >
             {pending ? (
                 <>
-                    <Loader2 className="w-5 h-5 animate-spin text-noir-blue" />
+                    <Loader2 className="w-5 h-5 animate-spin text-noir-blue shrink-0" />
                     <span>Processing...</span>
                 </>
             ) : (

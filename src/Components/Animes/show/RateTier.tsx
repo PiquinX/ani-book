@@ -3,13 +3,12 @@ import React from 'react'
 
 interface Props {
     rate: number
-    type?: 'anime' | 'book' | 'movie' | 'serie'
 }
 
-export const RateTier: React.FC<Props> = ({ rate, type }) => {
+export const RateTier: React.FC<Props> = ({ rate }) => {
     return (
         <span className={getRateColor(rate)}>
-            {getRateTier(rate, type)}
+            {getRateTier(rate)}
         </span>
     )
 }

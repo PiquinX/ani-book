@@ -10,6 +10,8 @@ import ConfirmModal from '@/Components/ConfirmModal'
 import ErrorModal from '@/Components/ErrorModal'
 import { useState } from 'react'
 import { deleteAnime } from '@/lib/actions/animeActions'
+import { X, Trash2 } from "lucide-react";
+
 
 
 const EditAnime = ({ anime }: { anime: AnimeType }) => {
@@ -60,14 +62,14 @@ const EditAnime = ({ anime }: { anime: AnimeType }) => {
           href={`/animes?${params.toString()}`}
           className='absolute text-3xl text-gray-500 animate-appear-fast top-5 right-6'
         >
-          <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
+          <X className="duration-150 hover:rotate-90 hover:text-red-500 w-8 h-8 shrink-0" />
         </Link>
         <button
           type="button"
           onClick={() => setShowConfirmModal(true)}
           className='absolute flex items-center gap-2 px-3 py-1.5 border border-[#333333] rounded text-sm font-medium text-gray-500 animate-appear-fast top-5 left-6 hover:text-[#FF1111] hover:border-[#FF1111] hover:bg-[#FF1111]/10 hover:shadow-[0_0_15px_rgba(255,17,17,0.4)] transition-all cursor-pointer'
         >
-          <i className="fa-solid fa-trash-can" />
+          <Trash2 className="w-5 h-5 shrink-0 hover:text-red-500 cursor-pointer duration-150" />
           Delete
         </button>
         <EditAnimeForm {...anime} onSuccess={() => setShowSuccessModal('updated')} />

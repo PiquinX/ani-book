@@ -5,6 +5,8 @@ import Input from '@/Components/forms/Input'
 import TitleSelectionModal from './TitleSelectionModal'
 import { useMediaSearch } from '@/hooks/useMediaSearch'
 import { AnimeSearchResult } from '@/lib/definitions'
+import { Loader2 } from "lucide-react";
+
 
 interface AnimeTitleSelectionInputProps {
     onSelectTitle: (title: string, poster: string) => void
@@ -67,7 +69,7 @@ const AnimeTitleSelectionInput: React.FC<AnimeTitleSelectionInputProps> = ({ onS
 
             {loading && (
                 <div className='absolute right-3 top-2 text-sm text-gray-400'>
-                    <i className="fa-solid fa-spinner animate-spin"></i>
+                    <Loader2 className="animate-spin w-5 h-5 shrink-0" />
                 </div>
             )}
 

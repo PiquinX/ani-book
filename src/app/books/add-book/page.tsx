@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import SuccessModal from '@/Components/SuccessModal'
+import { X } from "lucide-react";
+
 
 export default function Page() {
   const { popUpData } = usePopUp({ newPath: '/books' })
@@ -38,7 +40,7 @@ export default function Page() {
           scroll={false}
           className='absolute text-3xl text-gray-500 animate-appear-fast top-5 right-6'
         >
-          <i className="fa-solid fa-xmark duration-150 hover:rotate-90 hover:text-red-500" />
+          <X className="duration-150 hover:rotate-90 hover:text-red-500 w-8 h-8 shrink-0" />
         </Link>
         <AddBookForm onSuccess={() => setShowSuccessModal(true)} />
       </div>

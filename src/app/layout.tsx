@@ -21,7 +21,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://kit.fontawesome.com/e61d350a25.js" crossOrigin="anonymous" defer></script>
       </head>
       <Providers>
         <body className={`${inter.className} overflow-x-hidden main-scroll max-w-screen py-5 px-3 sm:px-5 flex flex-col gap-5 bg-black text-white`}>

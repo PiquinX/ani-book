@@ -25,7 +25,7 @@ const AnimesHeader = () => {
                 className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-black border border-noir-blue rounded-full flex items-center justify-center text-white shadow-[0_0_15px_2px_var(--noir-blue)] hover:shadow-[0_0_25px_5px_var(--noir-blue)] transition-all z-50 animate-appear-fast"
                 scroll={false}
             >
-                <Plus className="w-6 h-6" />
+                <Plus className="w-6 h-6 shrink-0" />
             </Link>
 
             <div className="flex justify-end">

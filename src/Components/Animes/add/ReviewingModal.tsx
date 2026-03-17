@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Pen } from "lucide-react";
+
 
 interface ReviewingModalProps {
     file: File | null;
@@ -129,7 +131,7 @@ const ReviewingModal: React.FC<ReviewingModalProps> = ({
                                         }}
                                         className="bottom-[2px] relative opacity-0 cursor-pointer group-hover:opacity-100 text-[#1111FF] hover:text-blue-400 p-1 transition-opacity"
                                     >
-                                        <i className="fa-solid fa-pen text-xs"></i>
+                                        <Pen className="w-3 h-3 shrink-0" />
                                     </button>
                                 )}
                             </div>

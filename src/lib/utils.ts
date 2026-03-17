@@ -118,11 +118,11 @@ export const getRate = (rate: string): number => {
     if (rate === 'D') return 70
     if (rate === 'E') return 50
     if (rate === 'F') return 45
-    if (rate === "DON'T WATCH" || rate === "DON'T READ") return 10
+    if (rate === "NOT RATED") return 1
     return 1
 }
 
-export const getRateTier = (rate: number, type?: string): string => {
+export const getRateTier = (rate: number): string => {
     if (rate >= 95) return 'S+'
     if (rate >= 90) return 'S'
     if (rate >= 85) return 'A'
@@ -131,7 +131,7 @@ export const getRateTier = (rate: number, type?: string): string => {
     if (rate >= 65) return 'D'
     if (rate >= 55) return 'E'
     if (rate >= 45) return 'F'
-    if (rate < 45) return type === 'book' ? "DON'T READ" : "DON'T WATCH"
+    if (rate < 45) return "NOT RATED"
     return ''
 }
 

@@ -9,8 +9,8 @@ services:
     ports:
       # Maps port 3001 on your machine to port 3000 inside the container.
       # You can change '3001' to '3000' if you stop your local dev server first.
-      - "3001:3000"
+      - "3000:3000"
     restart: unless-stopped
     env_file:
-      # Automatically loads environment variables from your .env file
-      - .env
+      # Automatically loads environment variables from your .env.local file
+      - .env.local
