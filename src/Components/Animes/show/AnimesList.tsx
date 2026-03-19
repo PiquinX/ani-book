@@ -18,7 +18,7 @@ export const AnimesList: React.FC<AnimesListProps> = ({ animes }) => {
                     <Anime anime={anime} key={anime.id} />
                 ))
             }
-            <AddCard link={`animes/add-anime?${params.toString()}`} />
+            <AddCard link={`/animes/add-anime?${params.toString()}`} />
         </div>
     )
 }
@@ -31,7 +31,7 @@ const Anime = ({ anime }: { anime: AnimeWithoutRate }) => {
 
     return (
         <MediaCard
-            href={`animes/edit-anime/${anime.id}?${params.toString()}`}
+            href={`/animes/edit-anime/${anime.id}?${params.toString()}`}
             title={anime.title}
             poster={anime.poster}
             rate={anime.averageRate}

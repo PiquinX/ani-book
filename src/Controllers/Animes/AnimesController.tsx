@@ -23,7 +23,7 @@ const AnimesController = ({ animes }: { animes: AnimeToShowType[] | null }) => {
       const params = new URLSearchParams(searchParams);
       return (
         <div className="grid grid-cols-responsive gap-8">
-          <AddCard link={`animes/add-anime?${params.toString()}`} />
+          <AddCard link={`/animes/add-anime?${params.toString()}`} />
         </div>
       )
     }
